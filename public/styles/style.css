@@ -1,0 +1,56 @@
+
+.flex-container {
+    display: flex;
+    background-color: DodgerBlue;
+  }
+.side{
+    background-color: blue;
+    width: 10vw;
+    height: 90vh;
+}
+.side a{
+   color: white;
+    margin-left: 10%;
+    margin-top: 10%;
+    text-decoration: none !important;
+}
+.content{
+    width: 90vw;
+    height: 90vh;
+}
+
+.content h1{
+    text-align: center;
+}
+.content p{
+    margin-top: 5%;
+    margin-left: 10%;
+}
+
+ul {
+    list-style-type: none;
+  }
+
+#sidemenu{
+    display: none;
+}
+  @media only screen and (max-width: 600px) {
+    .side{
+        width: 0%;
+    }
+    .side a{
+        position: relative;
+        top: 10%;
+        opacity: 0%;
+    }
+    #sidemenu{
+        display: block;
+        max-width: 600px;
+        position: absolute; 
+    }
+  }
+
+
+
+
+

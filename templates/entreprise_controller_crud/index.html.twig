@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Entreprise index{% endblock %}
+
+{% block body %}
+<div class="container">
+
+    <table class="table">
+        <h1 class="text-center">Votre compte pro</h1>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Adresse</th>
+                <th>Cp</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entreprise in entreprises %}
+            <tr>
+                <td>{{ entreprise.id }}</td>
+                <td>{{ entreprise.nom }}</td>
+                <td>{{ entreprise.adresse }}</td>
+                <td>{{ entreprise.cp }}</td>
+                <td>
+                    <a href="{{ path('app_entreprise_controller_crud_show', {'id': entreprise.id}) }}">show</a>
+                    <a href="{{ path('app_entreprise_controller_crud_edit', {'id': entreprise.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+    Nombre de comptes : {{ entreprises|length }} </br>
+
+    {% if entreprises|length < 1 %}
+
+    <a href="{{ path('app_entreprise_controller_crud_new') }}">Create new</a>
+
+    {% endif %}
+</div> 
+{% endblock %}

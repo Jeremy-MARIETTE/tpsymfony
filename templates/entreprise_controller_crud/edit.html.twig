@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Entreprise{% endblock %}
+
+{% block body %}
+ 
+    <div class="container">
+       <h1 class="text-center">Edit Entreprise</h1>
+
+        {{ include('entreprise_controller_crud/_form.html.twig', {'button_label': 'Update'}) }}
+
+        <a href="{{ path('app_entreprise_controller_crud_index') }}">back to list</a>
+
+        {{ include('entreprise_controller_crud/_delete_form.html.twig') }}
+    </div>
+{% endblock %}

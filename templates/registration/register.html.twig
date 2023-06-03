@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+    {% for flash_error in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+    {% endfor %}
+   <div class="container">
+
+        <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="card-body p-0">
+                <!-- Nested Row within Card Body -->
+                <div class="row">
+                    <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
+                    <div class="col-lg-7">
+                        <div class="p-5">
+                            <div class="text-center">
+                                <h1 class="h4 text-gray-900 mb-4">Créez votre compte</h1>
+                            </div>
+                       {{ form_start(registrationForm, {
+                                'attr': {
+                                    'class': 'form-group row'
+                                }
+                            }) }}
+
+                            {{ form_row(registrationForm.prenom, {
+                                'attr': {
+                                    'class': 'form-control',
+                                     'placeholder' : 'Prénom'
+                                },
+                                'label_attr': {
+                                    'class': 'visually-hidden'
+                                }
+                            }) }}
+
+                            {{ form_row(registrationForm.nom, {
+                                'attr': {
+                                    'class': 'form-control',
+                                    'placeholder' : 'Nom'
+                                },
+                                'label_attr': {
+                                    'class': 'visually-hidden'
+                                }
+                            }) }}
+
+                            {{ form_row(registrationForm.email, {
+                                'attr': {
+                                    'class': 'form-control',
+                                    'placeholder' : 'Email'
+                                },
+                                'label_attr': {
+                                    'class': 'visually-hidden'
+                                }
+                            }) }}
+
+                            {{ form_row(registrationForm.plainPassword, {
+                                'attr': {
+                                    'class': 'form-control',
+                                    'placeholder' : 'Mot de passe'
+                                },
+                                'label_attr': {
+                                    'class': 'visually-hidden'
+                                }
+                            }) }}
+
+                            {{ form_row(registrationForm.agreeTerms,{ 'label': 'J\'accepte les termes d\'utilisation.' }, 
+                            {
+                                'attr': {
+                                    'class': 'form-check-input'
+                                }    
+                            }) }}
+                            
+
+                            <button type="submit" class="col btn btn-lg btn-primary">Création de compte</button>
+
+                        {{ form_end(registrationForm) }}
+                            <hr>
+                            <div class="text-center">
+                                <a class="small" href="/reset-password">Mot de passe oublié ?</a>
+                            </div>
+                            <div class="text-center">
+                                <a class="small" href="/login">Vous avez déjà un compte ? Connectez-vous.</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

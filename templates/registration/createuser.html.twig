@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bienvenue, merci de confirmer votre email</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-4 text-center">GUARD MANAGER</h1>
+        
+        <p>
+            Bonjour <span class="font-weight-bold">{{ user.prenom }} {{ user.nom }}</span></br>
+             
+             Vous êtes invité par <span class="font-weight-bold">{{ entreprise.nom }}</span> à utiliser nos services. <br><br>
+       
+            Merci de confirmer votre email, en cliquant sur le lien suivant. <br><br>
+
+           <span class="font-weight-bold"> Votre login :</span> {{ user.email }} <br>
+
+            <span class="font-weight-bold">Votre role :</span> {{ user.roles[0] }} <br>
+
+           
+                <span class="font-weight-bold">Votre mot de passe :</span> {{ password }} <br>
+                Modifiez votre mot de passe temporaire en allant dans votre profil. </br> </br>
+
+                <a href="https://127.0.0.1:8000/login">
+                    <button class=" col btn btn-success">
+                        Cliquez ici pour vous connecter
+                    </button>
+                </a>
+          
+        </p>
+
+      
+
+        <p>
+            Bien à vous.
+        </p>
+    </div>
+</body>
+</html>

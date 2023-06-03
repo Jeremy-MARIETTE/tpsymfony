@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New User{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="text-center">Créer un compte agent ou client</h1>
+
+        {{ include('user_controller_crud/_form.html.twig') }}
+
+        <a href="{{ path('app_user_controller_crud_index') }}">back to list</a>
+    </div>
+{% endblock %}
