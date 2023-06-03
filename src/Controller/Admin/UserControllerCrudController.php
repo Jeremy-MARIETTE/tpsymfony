@@ -83,9 +83,6 @@ class UserControllerCrudController extends AbstractController
                 ->from('clui1@msn.com')
                 ->to($user->getEmail())
                 ->subject('Confirmation de votre inscription')
-                //->text('Sending emails is fun again!')
-                //->html('<p>See Twig integration for better HTML integration!</p>');
-                //i want user a template for the email
                 ->html($this->renderView('registration/createuser.html.twig', [
                     'user' => $user,
                     'password' => $sendPassword,
