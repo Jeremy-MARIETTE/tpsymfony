@@ -10,7 +10,7 @@ Renseignez les informations de connection dans le ficher : .env du projet Symfon
 
 Commandes à saisir dans la CMD:
 
-    composer isntall
+    composer install
     symfony console make:migration
     symfony console d:m:m
     symfony serve
