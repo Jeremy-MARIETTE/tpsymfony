@@ -24,17 +24,17 @@ class Site
     #[ORM\Column(length: 255)]
     private ?string $adresse = null;
 
-    #[ORM\OneToMany(mappedBy: 'site', targetEntity: Rapport::class)]
-    private Collection $rapports;
+    #[ORM\OneToMany(mappedBy: 'site', targetEntity: Poste::class)]
+    private Collection $postes;
 
-    #[ORM\ManyToMany(targetEntity: SiteUser::class, mappedBy: 'SiteId')]
-    private Collection $siteUsers;
 
     public function __construct()
     {
         $this->agent = new ArrayCollection();
         $this->rapports = new ArrayCollection();
         $this->siteUsers = new ArrayCollection();
+        $this->posteTravails = new ArrayCollection();
+        $this->postes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -145,33 +145,33 @@ class Site
     }
 
     /**
-     * @return Collection<int, SiteUser>
+     * @return Collection<int, Poste>
      */
-    public function getSiteUsers(): Collection
+    public function getPostes(): Collection
     {
-        return $this->siteUsers;
+        return $this->postes;
     }
 
-    public function addSiteUser(SiteUser $siteUser): self
+    public function addPoste(Poste $poste): self
     {
-        if (!$this->siteUsers->contains($siteUser)) {
-            $this->siteUsers->add($siteUser);
-            $siteUser->addSiteId($this);
+        if (!$this->postes->contains($poste)) {
+            $this->postes->add($poste);
+            $poste->setSite($this);
         }
 
         return $this;
     }
 
-    public function removeSiteUser(SiteUser $siteUser): self
+    public function removePoste(Poste $poste): self
     {
-        if ($this->siteUsers->removeElement($siteUser)) {
-            $siteUser->removeSiteId($this);
+        if ($this->postes->removeElement($poste)) {
+            // set the owning side to null (unless already changed)
+            if ($poste->getSite() === $this) {
+                $poste->setSite(null);
+            }
         }
 
         return $this;
     }
-
-  
-
 
 }

@@ -22,7 +22,7 @@
                     <td>{{ rapport.id }}</td>
                     <td>{{ rapport.auteur }}</td>
                     <td>{{ rapport.content }}</td>
-                    <td>{{ rapport.createdAt ? rapport.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ rapport.createdAt ? rapport.createdAt|date('d-m-Y H:i:s') : '' }}</td>
                     <td>
                         <a href="{{ path('app_rapport_controller_crud_show', {'id': rapport.id}) }}">show</a>
                         <a href="{{ path('app_rapport_controller_crud_edit', {'id': rapport.id}) }}">edit</a>

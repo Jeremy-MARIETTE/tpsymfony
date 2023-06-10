@@ -43,17 +43,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\ManyToMany(targetEntity: Site::class, mappedBy: 'agent')]
-    private Collection $sites;
-
-    #[ORM\ManyToMany(targetEntity: SiteUser::class, mappedBy: 'SiteUser')]
-    private Collection $siteUsers;
+    #[ORM\OneToMany(mappedBy: 'agent', targetEntity: Poste::class)]
+    private Collection $postes;
 
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
         $this->sites = new ArrayCollection();
         $this->siteUsers = new ArrayCollection();
+        $this->posteTravails = new ArrayCollection();
+        $this->postes = new ArrayCollection();
     }
     
     public function getId(): ?int
@@ -202,29 +201,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, SiteUser>
+     * @return Collection<int, Poste>
      */
-    public function getSiteUsers(): Collection
+    public function getPostes(): Collection
     {
-        return $this->siteUsers;
+        return $this->postes;
     }
 
-    public function addSiteUser(SiteUser $siteUser): self
+    public function addPoste(Poste $poste): self
     {
-        if (!$this->siteUsers->contains($siteUser)) {
-            $this->siteUsers->add($siteUser);
-            $siteUser->addSiteUser($this);
+        if (!$this->postes->contains($poste)) {
+            $this->postes->add($poste);
+            $poste->setAgent($this);
         }
 
         return $this;
     }
 
-    public function removeSiteUser(SiteUser $siteUser): self
+    public function removePoste(Poste $poste): self
     {
-        if ($this->siteUsers->removeElement($siteUser)) {
-            $siteUser->removeSiteUser($this);
+        if ($this->postes->removeElement($poste)) {
+            // set the owning side to null (unless already changed)
+            if ($poste->getAgent() === $this) {
+                $poste->setAgent(null);
+            }
         }
 
         return $this;
     }
+
 }
