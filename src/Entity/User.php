@@ -46,10 +46,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Site::class, mappedBy: 'agent')]
     private Collection $sites;
 
+    #[ORM\ManyToMany(targetEntity: SiteUser::class, mappedBy: 'SiteUser')]
+    private Collection $siteUsers;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
         $this->sites = new ArrayCollection();
+        $this->siteUsers = new ArrayCollection();
     }
     
     public function getId(): ?int
@@ -192,6 +196,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->sites->removeElement($site)) {
             $site->removeAgent($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, SiteUser>
+     */
+    public function getSiteUsers(): Collection
+    {
+        return $this->siteUsers;
+    }
+
+    public function addSiteUser(SiteUser $siteUser): self
+    {
+        if (!$this->siteUsers->contains($siteUser)) {
+            $this->siteUsers->add($siteUser);
+            $siteUser->addSiteUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSiteUser(SiteUser $siteUser): self
+    {
+        if ($this->siteUsers->removeElement($siteUser)) {
+            $siteUser->removeSiteUser($this);
         }
 
         return $this;

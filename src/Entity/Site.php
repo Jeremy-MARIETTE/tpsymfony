@@ -27,10 +27,14 @@ class Site
     #[ORM\OneToMany(mappedBy: 'site', targetEntity: Rapport::class)]
     private Collection $rapports;
 
+    #[ORM\ManyToMany(targetEntity: SiteUser::class, mappedBy: 'SiteId')]
+    private Collection $siteUsers;
+
     public function __construct()
     {
         $this->agent = new ArrayCollection();
         $this->rapports = new ArrayCollection();
+        $this->siteUsers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -135,6 +139,33 @@ class Site
             if ($rapport->getSite() === $this) {
                 $rapport->setSite(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, SiteUser>
+     */
+    public function getSiteUsers(): Collection
+    {
+        return $this->siteUsers;
+    }
+
+    public function addSiteUser(SiteUser $siteUser): self
+    {
+        if (!$this->siteUsers->contains($siteUser)) {
+            $this->siteUsers->add($siteUser);
+            $siteUser->addSiteId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSiteUser(SiteUser $siteUser): self
+    {
+        if ($this->siteUsers->removeElement($siteUser)) {
+            $siteUser->removeSiteId($this);
         }
 
         return $this;

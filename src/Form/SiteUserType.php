@@ -2,31 +2,33 @@
 
 namespace App\Form;
 
-use App\Entity\Rapport;
+use App\Entity\SiteUser;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class Rapport1Type extends AbstractType
+class SiteUserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-          
-            ->add('site', null, [
+            ->add('SiteId', null, [
                 'choice_label' => 'nom',
+                'expanded' => true,
+                'multiple' => true,
             ])
-            ->add('category', null, [
+            ->add('SiteUser', null, [
                 'choice_label' => 'nom',
+                'expanded' => true,
+                'multiple' => true,
             ])
-            ->add('content')
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Rapport::class,
+            'data_class' => SiteUser::class,
         ]);
     }
 }
