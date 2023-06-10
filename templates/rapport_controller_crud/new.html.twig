@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+    
+
+        {% block title %}New Rapport{% endblock %}
+
+        {% block body %}
+    <div class="container">
+            <h1>Create new Rapport</h1>
+
+            {{ include('rapport_controller_crud/_form.html.twig') }}
+
+            <a href="{{ path('app_rapport_controller_crud_index') }}">back to list</a>
+    </div>
+{% endblock %}

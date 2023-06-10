@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -41,9 +43,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
+    #[ORM\ManyToMany(targetEntity: Site::class, mappedBy: 'agent')]
+    private Collection $sites;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
+        $this->sites = new ArrayCollection();
     }
     
     public function getId(): ?int
@@ -160,6 +166,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Site>
+     */
+    public function getSites(): Collection
+    {
+        return $this->sites;
+    }
+
+    public function addSite(Site $site): self
+    {
+        if (!$this->sites->contains($site)) {
+            $this->sites->add($site);
+            $site->addAgent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSite(Site $site): self
+    {
+        if ($this->sites->removeElement($site)) {
+            $site->removeAgent($this);
+        }
 
         return $this;
     }

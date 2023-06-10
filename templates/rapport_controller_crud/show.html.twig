@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Rapport{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Rapport</h1>
+
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Id</th>
+                    <td>{{ rapport.id }}</td>
+                </tr>
+                <tr>
+                    <th>Auteur</th>
+                    <td>{{ rapport.auteur }}</td>
+                </tr>
+                <tr>
+                    <th>Content</th>
+                    <td>{{ rapport.content }}</td>
+                </tr>
+                <tr>
+                    <th>CreatedAt</th>
+                    <td>{{ rapport.createdAt ? rapport.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <a href="{{ path('app_rapport_controller_crud_index') }}">back to list</a>
+
+        <a href="{{ path('app_rapport_controller_crud_edit', {'id': rapport.id}) }}">edit</a>
+
+        {{ include('rapport_controller_crud/_delete_form.html.twig') }}
+        </div>
+{% endblock %}

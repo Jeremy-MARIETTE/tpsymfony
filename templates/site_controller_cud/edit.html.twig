@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Site{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Edit Site</h1>
+
+        {{ include('site_controller_cud/_form.html.twig', {'button_label': 'Update'}) }}
+
+        <a href="{{ path('app_site_controller_cud_index') }}">back to list</a>
+
+        {{ include('site_controller_cud/_delete_form.html.twig') }}
+    </div>
+{% endblock %}
