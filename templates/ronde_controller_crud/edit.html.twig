@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Ronde{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Edit Ronde</h1>
+
+        {{ include('ronde_controller_crud/_form.html.twig', {'button_label': 'Update'}) }}
+
+        <a href="{{ path('app_ronde_controller_crud_index') }}">back to list</a>
+
+        {{ include('ronde_controller_crud/_delete_form.html.twig') }}
+    </div>
+{% endblock %}

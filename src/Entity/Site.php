@@ -30,6 +30,9 @@ class Site
     #[ORM\OneToMany(mappedBy: 'site', targetEntity: Consignes::class)]
     private Collection $consignes;
 
+    #[ORM\OneToMany(mappedBy: 'site', targetEntity: Ronde::class)]
+    private Collection $rondes;
+
 
     public function __construct()
     {
@@ -39,6 +42,7 @@ class Site
         $this->posteTravails = new ArrayCollection();
         $this->postes = new ArrayCollection();
         $this->consignes = new ArrayCollection();
+        $this->rondes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -202,6 +206,36 @@ class Site
             // set the owning side to null (unless already changed)
             if ($consigne->getSite() === $this) {
                 $consigne->setSite(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Ronde>
+     */
+    public function getRondes(): Collection
+    {
+        return $this->rondes;
+    }
+
+    public function addRonde(Ronde $ronde): self
+    {
+        if (!$this->rondes->contains($ronde)) {
+            $this->rondes->add($ronde);
+            $ronde->setSite($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRonde(Ronde $ronde): self
+    {
+        if ($this->rondes->removeElement($ronde)) {
+            // set the owning side to null (unless already changed)
+            if ($ronde->getSite() === $this) {
+                $ronde->setSite(null);
             }
         }
 

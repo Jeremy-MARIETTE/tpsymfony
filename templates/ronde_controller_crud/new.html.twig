@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ronde{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Ronde</h1>
+
+        {{ include('ronde_controller_crud/_form.html.twig') }}
+
+        <a href="{{ path('app_ronde_controller_crud_index') }}">Retour à la liste</a>
+    </div>
+
+    <script>
+           document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('ronde_debutAt').addEventListener('click', function() {
+            var datetimeField = document.getElementById('{{ form.debutAt.vars.id }}');
+            var now = new Date();
+      
+           //je veux l'heure actuelle + 4h
+              var datetimeField = document.getElementById('{{ form.debutAt.vars.id }}');
+            var now = new Date();
+            var formattedDateTime = new Date(now.toISOString().slice(0, 16)); // Utilisation de DateTimeImmutable
+            formattedDateTime.setHours(formattedDateTime.getHours() + 4);
+            datetimeField.value = formattedDateTime.toISOString().slice(0, 16);
+
+            
+        });
+    });
+    </script>
+
+     <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('ronde_retourAt').addEventListener('click', function() {
+            var datetimeField = document.getElementById('{{ form.retourAt.vars.id }}');
+            var now = new Date();
+            var formattedDateTime = new Date(now.toISOString().slice(0, 16)); // Utilisation de DateTimeImmutable
+            formattedDateTime.setHours(formattedDateTime.getHours() + 4);
+            datetimeField.value = formattedDateTime.toISOString().slice(0, 16);
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Rondes{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Rondes</h1>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>DebutAt</th>
+                    <th>RetourAt</th>
+                    <th>Observation</th>
+                    <th>actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for ronde in rondes %}
+                <tr>
+                    <td>{{ ronde.id }}</td>
+                    <td>{{ ronde.debutAt ? ronde.debutAt|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ ronde.retourAt ? ronde.retourAt|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ ronde.observation }}</td>
+                    <td>
+                        <a href="{{ path('app_ronde_controller_crud_show', {'id': ronde.id}) }}">Voir</a>
+                        <a href="{{ path('app_ronde_controller_crud_edit', {'id': ronde.id}) }}">Modifier</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">Pas de ronde enregistré.</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <a href="{{ path('app_ronde_controller_crud_new') }}">Enregistrer une ronde</a>
+        </div>
+{% endblock %}
