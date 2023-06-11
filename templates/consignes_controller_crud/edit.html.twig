@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Consignes{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Consignes</h1>
+
+        {{ include('consignes_controller_crud/_form.html.twig', {'button_label': 'Modifier'}) }}
+
+        <a href="{{ path('app_consignes_controller_crud_index') }}">Retour à la liste</a>
+
+        {{ include('consignes_controller_crud/_delete_form.html.twig') }}
+    </div>
+{% endblock %}

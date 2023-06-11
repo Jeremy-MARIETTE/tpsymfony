@@ -24,10 +24,14 @@ class Category
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: Rapport::class)]
     private Collection $rapports;
 
+    #[ORM\OneToMany(mappedBy: 'category', targetEntity: Consignes::class)]
+    private Collection $content;
+
     public function __construct()
     {
         $this->livres = new ArrayCollection();
         $this->rapports = new ArrayCollection();
+        $this->content = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -101,6 +105,36 @@ class Category
             // set the owning side to null (unless already changed)
             if ($rapport->getCategory() === $this) {
                 $rapport->setCategory(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Consignes>
+     */
+    public function getContent(): Collection
+    {
+        return $this->content;
+    }
+
+    public function addContent(Consignes $content): self
+    {
+        if (!$this->content->contains($content)) {
+            $this->content->add($content);
+            $content->setCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContent(Consignes $content): self
+    {
+        if ($this->content->removeElement($content)) {
+            // set the owning side to null (unless already changed)
+            if ($content->getCategory() === $this) {
+                $content->setCategory(null);
             }
         }
 

@@ -27,6 +27,9 @@ class Site
     #[ORM\OneToMany(mappedBy: 'site', targetEntity: Poste::class)]
     private Collection $postes;
 
+    #[ORM\OneToMany(mappedBy: 'site', targetEntity: Consignes::class)]
+    private Collection $consignes;
+
 
     public function __construct()
     {
@@ -35,6 +38,7 @@ class Site
         $this->siteUsers = new ArrayCollection();
         $this->posteTravails = new ArrayCollection();
         $this->postes = new ArrayCollection();
+        $this->consignes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -168,6 +172,36 @@ class Site
             // set the owning side to null (unless already changed)
             if ($poste->getSite() === $this) {
                 $poste->setSite(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Consignes>
+     */
+    public function getConsignes(): Collection
+    {
+        return $this->consignes;
+    }
+
+    public function addConsigne(Consignes $consigne): self
+    {
+        if (!$this->consignes->contains($consigne)) {
+            $this->consignes->add($consigne);
+            $consigne->setSite($this);
+        }
+
+        return $this;
+    }
+
+    public function removeConsigne(Consignes $consigne): self
+    {
+        if ($this->consignes->removeElement($consigne)) {
+            // set the owning side to null (unless already changed)
+            if ($consigne->getSite() === $this) {
+                $consigne->setSite(null);
             }
         }
 

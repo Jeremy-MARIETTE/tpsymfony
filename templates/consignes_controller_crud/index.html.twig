@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Consignes{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Consignes</h1>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Content</th>
+                    <th>actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for consigne in consignes %}
+                <tr>
+                    <td>{{ consigne.id }}</td>
+                    <td>{{ consigne.content }}</td>
+                    <td>
+                        <a href="{{ path('app_consignes_controller_crud_show', {'id': consigne.id}) }}">Voir</a>
+                        <a href="{{ path('app_consignes_controller_crud_edit', {'id': consigne.id}) }}">Modifier</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3">Aucune consigne.</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <a href="{{ path('app_consignes_controller_crud_new') }}">Créer une consigne</a>
+        </div>
+{% endblock %}
