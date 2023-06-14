@@ -37,8 +37,8 @@ class AdminController extends AbstractController
 
          $userId = $this->getUser()->getId(); // Assurez-vous que cette méthode retourne l'ID du gérant actuel
 
-    $entrepriseRepository = $this->entityManager->getRepository(Entreprise::class);
-    $entreprise = $entrepriseRepository->findOneBy(['idGerant' => $userId]);
+        $entrepriseRepository = $this->entityManager->getRepository(Entreprise::class);
+        $entreprise = $entrepriseRepository->findOneBy(['idGerant' => $userId]);
 
     // Maintenant, vous avez l'objet Entreprise correspondant à l'ID du gérant
     // Vous pouvez l'utiliser dans votre template ou faire ce que vous voulez avec

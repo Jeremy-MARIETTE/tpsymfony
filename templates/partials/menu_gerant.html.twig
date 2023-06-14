@@ -1,0 +1,79 @@
+  <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                <div class="sidebar-brand-icon rotate-n-15">
+                    <i class="fas fa-laugh-wink"></i>
+                </div>
+                <div class="sidebar-brand-text mx-3">
+                    {% if entreprise is not null %}
+                        {{ entreprise.nom }}
+                        {% else %}
+                            Administration
+                    {% endif %}
+            </a>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item active">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Administration</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Interface
+            </div>
+
+            <!-- Nav Item - Pages Collapse Menu -->
+          
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                    aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>Gestion compte</span>
+                </a>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Mon compte pro:</h6>
+                        <a class="collapse-item" href="admin/entreprise/controller/crud">Infos compte pro</a>
+                        <a class="collapse-item" href="admin/user/controller/crud/">Créer utilisateurs</a>
+
+                         <a class="collapse-item" href="admin/site/controller/crud">Créer sites</a>
+                         <a class="collapse-item" href="admin/consignes/controller/crud/">Créer consignes site</a>
+                         <a class="collapse-item" href="admin/poste/controller/crud">Affectation sites</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Nav Item - Utilities Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
+                    aria-expanded="true" aria-controls="collapseUtilities">
+                    <i class="fas fa-fw fa-wrench"></i>
+                    <span>Livres</span>
+                </a>
+                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Gestion des livres:</h6>
+                        <a class="collapse-item" href="admin/livre/controller/crud">Livres</a>
+                        <a class="collapse-item" href="admin/category/controller/crud">Catégories</a>
+                        <a class="collapse-item" href="admin/rapport/controller/crud">Créer un rapport</a>
+                         <a class="collapse-item" href="admin/ronde/controller/crud">Ronde</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+
+        </ul>

@@ -5,17 +5,36 @@
 Administration{% endblock %}
 
 {% block body %}
-   {{ include('partials/aside.html.twig') }}  
+
+{% if app.user.roles[0] == "ROLE_USER" %}
+   {{ include('partials/menu_gerant.html.twig') }}  
+{% endif %}
+
+{% if app.user.roles[0] == "ROLE_EMPLOYE" %}
+   {{ include('partials/menu_employe.html.twig') }}  
+{% endif %}
+
+{% if app.user.roles[0] == "ROLE_UTILISATEUR" %}
+   {{ include('partials/menu_utilisateur.html.twig') }}  
+{% endif %}
    <!-- Page Heading -->
    <div class="container">
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Tableau de bord</h1>
+
+                        
                     </div>
 
                     <!-- Content Row -->
                     <div class="row">
 
-                                        
+                            {% if app.user.roles[0] == "ROLE_USER" %}
+                            {{ include('partials/infos_gerant.html.twig') }}  
+                            {% endif %}
+                     
+                        </div>    
+                        
+                            
                     </div>
 
 
