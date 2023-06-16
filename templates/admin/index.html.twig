@@ -21,8 +21,6 @@ Administration{% endblock %}
    <div class="container">
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Tableau de bord</h1>
-
-                        
                     </div>
 
                     <!-- Content Row -->
@@ -33,9 +31,42 @@ Administration{% endblock %}
                             {% endif %}
                      
                         </div>    
-                        
-                            
+                      
+
+               
+
+                           <table class="table table-striped">
+                              <thead>
+                                 <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col">Site</th>
+                                    <th scope="col">Départ</th>
+                                    <th scope="col">Observation</th>
+                                    <th scope="col">Retour</th>
+                                 </tr>
+                              </thead>
+                              <tbody>
+                                 <tr>
+                                    
+                                    
+                                    {% for ronde in rondes %}
+                                       <th scope="row"></th>
+                                             <td>
+                                                {{ ronde.site.id }}
+                                             </td>
+                                             <td>
+                                                {{ ronde.debutAt|date('d/m/Y H:i:s') }}
+                                             </td>
+                                             <td>
+                                                {{ ronde.observation }}
+                                             </td>
+                                             <td>
+                                                {{ ronde.retourAt|date('d/m/Y H:i:s') }}
+                                             </td>
+                                          </tr>
+                                       {% endfor %}
+                              
+                              </tbody>
+                              </table>  
                     </div>
-
-
 {% endblock %}
