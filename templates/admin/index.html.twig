@@ -32,8 +32,20 @@ Administration{% endblock %}
                      
                         </div>    
                       
-
-               
+                      
+                    
+                     <form action="#" method="POST">
+                        <div class="input-group mb-3">
+                           <select name="site"  class="custom-select" id="inputGroupSelect01">
+                              <option selected>Choisir le site</option>
+                                 {% for site in sites %}
+                                 <option value="{{ site.id }}">{{ site.nom }}</option>
+                                    {% endfor %}
+                           </select>
+                        </div>
+                        <input type="submit" class="btn btn-primary" value="Valider">
+                   </form>
+                                    
 
                            <table class="table table-striped">
                               <thead>
