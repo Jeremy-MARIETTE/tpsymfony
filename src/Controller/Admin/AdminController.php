@@ -46,11 +46,14 @@ class AdminController extends AbstractController
 
         //handleRequest() permet de récupérer les données du formulaire
    
-        var_dump($request->request->get('site'));
+        //var_dump($request->request->get('site'));
+
+        $siteChoisi = $request->request->get('site');
+        $siteChoisi = $siteRepository->findOneBy(['id' => $siteChoisi]);
         
         $choix = $request->request->get('site');
       if($choix != null){
-        $ronde = $rondeRepository->findBy(['site' => $choix]);
+        $ronde = $rondeRepository->findBy(['site' => $choix], ['debutAt' => 'DESC']);
         }else{
             $ronde = $rondeRepository->findBy(['site' => '0']);
         }
@@ -63,7 +66,8 @@ class AdminController extends AbstractController
         'controller_name' => 'AdminController',
         'entreprise' => $entreprise, // Passez l'objet Entreprise au template
         'rondes' => $ronde,
-        'sites' => $site
+        'sites' => $site,
+        'siteChoisi' => $siteChoisi,
     ]);
     }
 }

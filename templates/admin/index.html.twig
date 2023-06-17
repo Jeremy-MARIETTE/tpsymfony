@@ -48,10 +48,15 @@ Administration{% endblock %}
                                     
 
                            <table class="table table-striped">
+
+                         
                               <thead>
+                              {% if siteChoisi is not empty %}
+                                  <h2 class="text-center">{{siteChoisi.nom}}</h2>
+                              {% endif %}
                                  <tr>
                                     <th scope="col"></th>
-                                    <th scope="col">Site</th>
+                                   
                                     <th scope="col">Départ</th>
                                     <th scope="col">Observation</th>
                                     <th scope="col">Retour</th>
@@ -63,9 +68,7 @@ Administration{% endblock %}
                                     
                                     {% for ronde in rondes %}
                                        <th scope="row"></th>
-                                             <td>
-                                                {{ ronde.site.id }}
-                                             </td>
+                                          
                                              <td>
                                                 {{ ronde.debutAt|date('d/m/Y H:i:s') }}
                                              </td>
