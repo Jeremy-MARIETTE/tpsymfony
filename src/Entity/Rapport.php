@@ -35,6 +35,9 @@ class Rapport
     #[ORM\ManyToOne(inversedBy: 'rapports')]
     private ?Site $site = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $token = null;
+
 
 
     public function __construct()
@@ -104,6 +107,18 @@ class Rapport
     public function setSite(?Site $site): self
     {
         $this->site = $site;
+
+        return $this;
+    }
+
+    public function getToken(): ?string
+    {
+        return $this->token;
+    }
+
+    public function setToken(?string $token): self
+    {
+        $this->token = $token;
 
         return $this;
     }

@@ -2,9 +2,15 @@
 
 namespace App\Controller\Admin;
 
+use Dompdf\Dompdf;
+use App\Entity\Site;
+use App\Entity\User;
+use Twig\Environment;
 use App\Entity\Rapport;
+use App\Entity\Entreprise;
 use App\Form\Rapport1Type;
 use App\Repository\RapportRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,6 +20,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 #[Route('admin/rapport/controller/crud')]
 class RapportControllerCrudController extends AbstractController
 {
+    
+    private $entityManager;
+   
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+      
+        $this->entityManager = $entityManager;
+        
+    }
     #[Route('/', name: 'app_rapport_controller_crud_index', methods: ['GET'])]
     public function index(RapportRepository $rapportRepository): Response
     {
@@ -43,13 +59,28 @@ class RapportControllerCrudController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_rapport_controller_crud_show', methods: ['GET'])]
-    public function show(Rapport $rapport): Response
+    public function show(Rapport $rapport, Security $security, EntityManagerInterface $entityManager): Response
     {
+        $userRepository = $entityManager->getRepository(User::class);
+        $user = $userRepository->findBy(['id' => $rapport->getAuteur()]);
+
+        //find site by id
+        $siteRepository = $entityManager->getRepository(Site::class);
+        $site = $siteRepository->findBy(['id' => $rapport->getSite()]);
+
+        //find entreprise by token
+        $entrepriseRepository = $entityManager->getRepository(Entreprise::class);
+        $entreprise = $entrepriseRepository->findBy(['idGerant' => $rapport->getToken()]);
+
         return $this->render('rapport_controller_crud/show.html.twig', [
             'rapport' => $rapport,
+            'user' => $user,
+            'site' => $site,
+            'entreprise' => $entreprise,
         ]);
+   
     }
-
+  
     #[Route('/{id}/edit', name: 'app_rapport_controller_crud_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Rapport $rapport, RapportRepository $rapportRepository): Response
     {

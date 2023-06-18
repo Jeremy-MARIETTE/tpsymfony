@@ -33,6 +33,9 @@ class Site
     #[ORM\OneToMany(mappedBy: 'site', targetEntity: Ronde::class)]
     private Collection $rondes;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $token = null;
+
 
     public function __construct()
     {
@@ -238,6 +241,18 @@ class Site
                 $ronde->setSite(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getToken(): ?string
+    {
+        return $this->token;
+    }
+
+    public function setToken(?string $token): self
+    {
+        $this->token = $token;
 
         return $this;
     }

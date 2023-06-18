@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Site;
+use App\Entity\User;
 use App\Entity\Ronde;
 use App\Entity\Entreprise;
 use App\Repository\SiteRepository;
@@ -32,12 +33,13 @@ class AdminController extends AbstractController
       
 
         $userId = $this->getUser()->getId(); // Assurez-vous que cette méthode retourne l'ID du gérant actuel
+        $token = $this->getUser()->getToken();
 
         $entrepriseRepository = $this->entityManager->getRepository(Entreprise::class);
         $entreprise = $entrepriseRepository->findOneBy(['idGerant' => $userId]);
 
         $siteRepository = $this->entityManager->getRepository(Site::class);
-        $site = $siteRepository->findAll();
+        $site = $siteRepository->findBy(['token' => $token]);
 
 
         $rondeRepository = $this->entityManager->getRepository(Ronde::class);
@@ -53,11 +55,18 @@ class AdminController extends AbstractController
         
         $choix = $request->request->get('site');
       if($choix != null){
-        $ronde = $rondeRepository->findBy(['site' => $choix], ['debutAt' => 'DESC']);
+        $ronde = $rondeRepository->findBy(['site' => $choix, 'token' => $token], ['debutAt' => 'DESC']);
         }else{
             $ronde = $rondeRepository->findBy(['site' => '0']);
         }
       
+        //je veux compter le nombre user avec mon token
+        $userRepository = $this->entityManager->getRepository(User::class);
+       
+        $user = $userRepository->findBy(['token' => $userId]);
+
+        
+
 
     // Maintenant, vous avez l'objet Entreprise correspondant à l'ID du gérant
     // Vous pouvez l'utiliser dans votre template ou faire ce que vous voulez avec
@@ -68,6 +77,8 @@ class AdminController extends AbstractController
         'rondes' => $ronde,
         'sites' => $site,
         'siteChoisi' => $siteChoisi,
+      
+        'user' => $user
     ]);
     }
 }

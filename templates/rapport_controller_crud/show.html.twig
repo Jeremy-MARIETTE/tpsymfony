@@ -4,28 +4,29 @@
 
 {% block body %}
     <div class="container">
-        <h1>Rapport</h1>
+        <h1 class="text-center">Rapport</h1>
 
-        <table class="table">
-            <tbody>
-                <tr>
-                    <th>Id</th>
-                    <td>{{ rapport.id }}</td>
-                </tr>
-                <tr>
-                    <th>Auteur</th>
-                    <td>{{ rapport.auteur }}</td>
-                </tr>
-                <tr>
-                    <th>Content</th>
-                    <td>{{ rapport.content }}</td>
-                </tr>
-                <tr>
-                    <th>CreatedAt</th>
-                    <td>{{ rapport.createdAt ? rapport.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="row">
+                <p class="text-left col-6"> <span class="font-weight-bold">{{ user[0].prenom}} {{user[0].nom}}</span></br>
+               {{ entreprise[0].nom }}<br>
+                {{ entreprise[0].adresse }}
+                {{ entreprise[0].cp }}
+              
+                </p>
+             
+   
+                <p class="text-right col-6"><span class="font-weight-bold">{{ rapport.site.nom }}</span></br>
+                {{ rapport.site.adresse }}<br>
+                {{ rapport.site.adresse }}
+                {{ rapport.site.cp }}
+                </p>
+        </div>
+        <p>Categorie : <span class="font-weight-bold">{{rapport.category.nom}}</span></p>
+        <p class="text-justify" style="height: 60vh">{{ rapport.content }}</p>
+
+        <h6 class="text-right">Le : {{ rapport.createdAt ? rapport.createdAt|date('d-m-Y H:i:s') : '' }}</h6>
+
+       
 
         <a href="{{ path('app_rapport_controller_crud_index') }}">back to list</a>
 

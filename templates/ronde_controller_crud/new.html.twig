@@ -24,8 +24,11 @@
             formattedDateTime.setHours(formattedDateTime.getHours() + 4);
             datetimeField.value = formattedDateTime.toISOString().slice(0, 16);
 
+           //Mettre readonly
+            document.getElementById('{{ form.debutAt.vars.id }}').readOnly = true;
             
         });
+      
     });
     </script>
 
@@ -37,6 +40,10 @@
             var formattedDateTime = new Date(now.toISOString().slice(0, 16)); // Utilisation de DateTimeImmutable
             formattedDateTime.setHours(formattedDateTime.getHours() + 4);
             datetimeField.value = formattedDateTime.toISOString().slice(0, 16);
+
+            //Metttre readonly
+            document.getElementById('{{ form.retourAt.vars.id }}').readOnly = true;
+        
         });
     });
 </script>

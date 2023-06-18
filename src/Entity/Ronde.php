@@ -2,9 +2,10 @@
 
 namespace App\Entity;
 
-use App\Repository\RondeRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\RondeRepository;
+
 
 #[ORM\Entity(repositoryClass: RondeRepository::class)]
 class Ronde
@@ -25,6 +26,10 @@ class Ronde
 
     #[ORM\ManyToOne(inversedBy: 'rondes')]
     private ?Site $site = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $token = null;
+
 
     public function getId(): ?int
     {
@@ -76,6 +81,18 @@ class Ronde
     {
         $this->site = $site;
 
+        return $this;
+    }
+
+    public function getToken(): ?string
+    {
+        return $this->token;
+    }
+
+    public function setToken(?string $token): self
+    {
+        $this->token = $token;
+        
         return $this;
     }
 }
