@@ -10,6 +10,7 @@ use App\Repository\SiteRepository;
 use App\Repository\UserRepository;
 use App\Repository\RondeRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -28,7 +29,7 @@ class AdminController extends AbstractController
     }
     
     #[Route('/admin', name: 'app_admin')]
-    public function index(Request $request): Response
+    public function index(Request $request,PaginatorInterface $paginator): Response
     {
       
 
@@ -55,7 +56,8 @@ class AdminController extends AbstractController
         
         $choix = $request->request->get('site');
       if($choix != null){
-        $ronde = $rondeRepository->findBy(['site' => $choix, 'token' => $token], ['debutAt' => 'DESC']);
+        $ronde= $rondeRepository->findBy(['site' => $choix, 'token' => $token], ['debutAt' => 'DESC']);
+   
         }else{
             $ronde = $rondeRepository->findBy(['site' => '0']);
         }

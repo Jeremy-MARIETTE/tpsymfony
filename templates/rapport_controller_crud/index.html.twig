@@ -4,28 +4,56 @@
 
 {% block body %}
     <div class="container">
-        <h1>Rapport index</h1>
+        <h1>Rapport</h1>
 
         <table class="table">
             <thead>
                 <tr>
-                    <th>Id</th>
                     <th>Auteur</th>
-                    <th>Content</th>
-                    <th>CreatedAt</th>
+                    <th>Site</th>
+                    <th>Contenu</th>
+                    <th>Date</th>
                     <th>actions</th>
                 </tr>
             </thead>
             <tbody>
+           
             {% for rapport in rapports %}
                 <tr>
-                    <td>{{ rapport.id }}</td>
-                    <td>{{ rapport.auteur }}</td>
+                    <td>
+                    
+                    {% for auteur in auteurs %}
+                                    {% if auteur.id == rapport.auteur %}
+                                    {{ auteur.nom }} {{ auteur.prenom }}
+                                    
+                                    {% endif %}
+                    {% endfor %}
+
+                    
+              
+                    
+                    
+                    </td>
+
+          
+
+              
+
+                {% for site in sites %}
+                                    {% if site.id == rapport.site.id %}
+                                    <td>{{ site.nom }}</td>
+                                    {% endif %}
+                {% endfor %}
+
+                       
+               
+
+                    
                     <td>{{ rapport.content }}</td>
                     <td>{{ rapport.createdAt ? rapport.createdAt|date('d-m-Y H:i:s') : '' }}</td>
                     <td>
                         <a href="{{ path('app_rapport_controller_crud_show', {'id': rapport.id}) }}">show</a>
-                        <a href="{{ path('app_rapport_controller_crud_edit', {'id': rapport.id}) }}">edit</a>
+                     
                     </td>
                 </tr>
             {% else %}

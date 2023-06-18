@@ -47,7 +47,7 @@ class RondeControllerCrudController extends AbstractController
             'ronde' => $ronde,
         ]);
     }
-
+/*
     #[Route('/{id}/edit', name: 'app_ronde_controller_crud_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Ronde $ronde, RondeRepository $rondeRepository): Response
     {
@@ -65,7 +65,8 @@ class RondeControllerCrudController extends AbstractController
             'form' => $form,
         ]);
     }
-
+*/
+/*
     #[Route('/{id}', name: 'app_ronde_controller_crud_delete', methods: ['POST'])]
     public function delete(Request $request, Ronde $ronde, RondeRepository $rondeRepository): Response
     {
@@ -74,5 +75,5 @@ class RondeControllerCrudController extends AbstractController
         }
 
         return $this->redirectToRoute('app_ronde_controller_crud_index', [], Response::HTTP_SEE_OTHER);
-    }
+    */
 }

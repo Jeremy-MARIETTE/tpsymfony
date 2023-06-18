@@ -9,6 +9,8 @@ use Twig\Environment;
 use App\Entity\Rapport;
 use App\Entity\Entreprise;
 use App\Form\Rapport1Type;
+use App\Repository\SiteRepository;
+use App\Repository\UserRepository;
 use App\Repository\RapportRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,10 +33,16 @@ class RapportControllerCrudController extends AbstractController
         
     }
     #[Route('/', name: 'app_rapport_controller_crud_index', methods: ['GET'])]
-    public function index(RapportRepository $rapportRepository): Response
+    public function index(RapportRepository $rapportRepository, SiteRepository $siteRepository, UserRepository $userRepository): Response
     {
         return $this->render('rapport_controller_crud/index.html.twig', [
-            'rapports' => $rapportRepository->findAll(),
+            //faire une jointure pour afficher le nom du site et de l'entreprise
+
+            
+            'rapports' => $rapportRepository->findBy(['token' => $this->getUser()->getToken()]),
+            'sites' => $siteRepository->findBy(['token' => $this->getUser()->getToken()]),
+            'auteurs' => $userRepository->findBy(['token' => $this->getUser()->getToken()]),
+
         ]);
     }
 
@@ -80,7 +88,7 @@ class RapportControllerCrudController extends AbstractController
         ]);
    
     }
-  
+  /*
     #[Route('/{id}/edit', name: 'app_rapport_controller_crud_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Rapport $rapport, RapportRepository $rapportRepository): Response
     {
@@ -98,6 +106,9 @@ class RapportControllerCrudController extends AbstractController
             'form' => $form,
         ]);
     }
+    */
+
+    /*
 
     #[Route('/{id}', name: 'app_rapport_controller_crud_delete', methods: ['POST'])]
     public function delete(Request $request, Rapport $rapport, RapportRepository $rapportRepository): Response
@@ -108,4 +119,5 @@ class RapportControllerCrudController extends AbstractController
 
         return $this->redirectToRoute('app_rapport_controller_crud_index', [], Response::HTTP_SEE_OTHER);
     }
+    */
 }
