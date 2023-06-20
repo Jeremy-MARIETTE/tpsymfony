@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use PDO;
 use DateTime;
 use DateInterval;
 use App\Entity\Site;
@@ -9,21 +10,22 @@ use App\Entity\User;
 use App\Entity\Ronde;
 use App\Entity\Entreprise;
 use Doctrine\ORM\Query\Expr;
+use Doctrine\DBAL\Connection;
+use Doctrine\ORM\Query\Expr\Func;
+
 use App\Repository\SiteRepository;
 use App\Repository\UserRepository;
 use App\Repository\RondeRepository;
-
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\ResultSetMapping;
 use Knp\Component\Pager\PaginatorInterface;
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Knp\Bundle\PaginatorBundle\Pagination\SlidingPaginationInterface;
-
-use Doctrine\DBAL\Connection;
 
 class AdminController extends AbstractController
 {
@@ -90,32 +92,44 @@ class AdminController extends AbstractController
         ->getResult();
 
         }
-        elseif($date != null){
-            
-            
-            var_dump($date);
-
-           
       
-
-            $rondes = $rondeRepository->findBy(['debutAt' => $date ]);
-
-           // Obtenir une instance de la connexion à la base de données
-            //$connection = $this->entityManager->getConnection();
-
-            // Requête SQL
-            //$sql = "SELECT * FROM ronde WHERE debut_at > '2023-06-18'";
-
-            // Exécuter la requête
-            //$rondes = $connection->executeQuery($sql)->fetchAllAssociative();
-
-            var_dump($date);
-            var_dump($rondes);
-        
-        }
         else{
             
             $rondes = $rondeRepository->findBy(['site' => '0']);
+        }
+        if($date != null){
+            var_dump($date);
+
+            // Convertir la date en objet DateTime
+            $date = new \DateTime($date);
+            //date moins 1 jour
+            $date->modify('-1 day');
+
+            var_dump($date);
+            $date->setTime(0, 0, 0);
+
+            $endDate = clone $date->modify('+1 day');
+
+            // Effectuer la recherche avec findBy en utilisant la date
+            //$rondes = $rondeRepository->findBy(['token' => $token, 'debutAt' => $date]);
+
+            // Créer une requête DQL avec createQueryBuilder
+$queryBuilder = $rondeRepository->createQueryBuilder('r');
+$queryBuilder->where('r.token = :token')
+    ->andWhere('r.debutAt'. ' >= :startDate')
+  
+    ->setParameters([
+        'token' => $token,
+        'startDate' => $date,
+       
+    ])
+    ->orderBy('r.debutAt', 'ASC');
+
+// Exécuter la requête et obtenir les résultats
+$rondes = $queryBuilder->getQuery()->getResult();
+
+var_dump($endDate);
+
         }
       
         //je veux compter le nombre user avec mon token
