@@ -117,10 +117,17 @@ class AdminController extends AbstractController
 $queryBuilder = $rondeRepository->createQueryBuilder('r');
 $queryBuilder->where('r.token = :token')
     ->andWhere('r.debutAt'. ' >= :startDate')
+    ->andWhere('r.retourAt'. ' <= :endDate')
+    ->andWhere('r.site = :site')
+  
+
   
     ->setParameters([
         'token' => $token,
         'startDate' => $date,
+        'endDate' => $endDate,
+        'site' => '1',
+       
        
     ])
     ->orderBy('r.debutAt', 'ASC');
