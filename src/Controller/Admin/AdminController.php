@@ -2,19 +2,28 @@
 
 namespace App\Controller\Admin;
 
+use DateTime;
+use DateInterval;
 use App\Entity\Site;
 use App\Entity\User;
 use App\Entity\Ronde;
 use App\Entity\Entreprise;
+use Doctrine\ORM\Query\Expr;
 use App\Repository\SiteRepository;
 use App\Repository\UserRepository;
 use App\Repository\RondeRepository;
+
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Query\ResultSetMapping;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Knp\Bundle\PaginatorBundle\Pagination\SlidingPaginationInterface;
+
+use Doctrine\DBAL\Connection;
 
 class AdminController extends AbstractController
 {
@@ -29,7 +38,7 @@ class AdminController extends AbstractController
     }
     
     #[Route('/admin', name: 'app_admin')]
-    public function index(Request $request,PaginatorInterface $paginator): Response
+    public function index(Request $request, PaginatorInterface $paginator): Response
     {
       
 
@@ -55,11 +64,58 @@ class AdminController extends AbstractController
         $siteChoisi = $siteRepository->findOneBy(['id' => $siteChoisi]);
         
         $choix = $request->request->get('site');
-      if($choix != null){
-        $ronde= $rondeRepository->findBy(['site' => $choix, 'token' => $token], ['debutAt' => 'DESC']);
+        $page = $request->query->getInt('page', 1);
+
+        $date = $request->request->get('date');
    
-        }else{
-            $ronde = $rondeRepository->findBy(['site' => '0']);
+      if($choix){
+
+        // Obtenir la date et l'heure actuelles
+        $currentDateTime = new DateTime();
+
+        // Soustraire 24 heures de la date et de l'heure actuelles
+        $dateTime24HoursAgo = $currentDateTime->sub(new DateInterval('P1D'));
+        // Formater la date et l'heure en une chaîne au format MySQL (Y-m-d H:i:s)
+        $dateTime24HoursAgoFormatted = $dateTime24HoursAgo->format('Y-m-d H:i:s');
+
+        $rondes = $rondeRepository->createQueryBuilder('r')
+        ->where('r.site = :site')
+        ->andWhere('r.token = :token')
+        ->andWhere('r.debutAt >= :dateTime24HoursAgo')
+        ->setParameter('site', $choix)
+        ->setParameter('token', $token)
+        ->setParameter('dateTime24HoursAgo', $dateTime24HoursAgo)
+        ->orderBy('r.debutAt', 'DESC')
+        ->getQuery()
+        ->getResult();
+
+        }
+        elseif($date != null){
+            
+            
+            var_dump($date);
+
+           
+      
+
+            $rondes = $rondeRepository->findBy(['debutAt' => $date ]);
+
+           // Obtenir une instance de la connexion à la base de données
+            //$connection = $this->entityManager->getConnection();
+
+            // Requête SQL
+            //$sql = "SELECT * FROM ronde WHERE debut_at > '2023-06-18'";
+
+            // Exécuter la requête
+            //$rondes = $connection->executeQuery($sql)->fetchAllAssociative();
+
+            var_dump($date);
+            var_dump($rondes);
+        
+        }
+        else{
+            
+            $rondes = $rondeRepository->findBy(['site' => '0']);
         }
       
         //je veux compter le nombre user avec mon token
@@ -76,7 +132,7 @@ class AdminController extends AbstractController
     return $this->render('admin/index.html.twig', [
         'controller_name' => 'AdminController',
         'entreprise' => $entreprise, // Passez l'objet Entreprise au template
-        'rondes' => $ronde,
+        'rondes' => $rondes,
         'sites' => $site,
         'siteChoisi' => $siteChoisi,
       

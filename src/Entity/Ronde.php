@@ -2,10 +2,9 @@
 
 namespace App\Entity;
 
+use App\Repository\RondeRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use App\Repository\RondeRepository;
-
 
 #[ORM\Entity(repositoryClass: RondeRepository::class)]
 class Ronde
@@ -29,7 +28,6 @@ class Ronde
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $token = null;
-
 
     public function getId(): ?int
     {
@@ -92,7 +90,7 @@ class Ronde
     public function setToken(?string $token): self
     {
         $this->token = $token;
-        
+
         return $this;
     }
 }
