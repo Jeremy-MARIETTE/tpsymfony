@@ -48,6 +48,12 @@ Administration{% endblock %}
 
                      <form action="#" method="POST" class="col 3">
                         <div class="input-group mb-4">
+                          <select name="site"  class=" col-3 custom-select" id="inputGroupSelect01">
+                              <option selected>Choisir le site</option>
+                                 {% for site in sites %}
+                                 <option value="{{ site.id }}">{{ site.nom }}</option>
+                                    {% endfor %}
+                           </select>
                        <input type="date" name="date">
                              <input type="submit" class="btn btn-primary" value="Valider">
                         </div>

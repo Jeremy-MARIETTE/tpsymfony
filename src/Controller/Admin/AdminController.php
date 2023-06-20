@@ -98,44 +98,39 @@ class AdminController extends AbstractController
             $rondes = $rondeRepository->findBy(['site' => '0']);
         }
         if($date != null){
-            var_dump($date);
+            //var_dump($date);
 
             // Convertir la date en objet DateTime
-            $date = new \DateTime($date);
+            $dateDebut = new \DateTime($date);
             //date moins 1 jour
-            $date->modify('-1 day');
+            $dateDebut->modify('-1 day');
 
-            var_dump($date);
-            $date->setTime(0, 0, 0);
+            //var_dump($date);
+            $dateDebut->setTime(0, 0, 0);
 
-            $endDate = clone $date->modify('+1 day');
+            $endDate = new \DateTime($date);
+            $endDate->modify('+1 day');
+            $endDate->setTime(23, 59, 59);
 
-            // Effectuer la recherche avec findBy en utilisant la date
-            //$rondes = $rondeRepository->findBy(['token' => $token, 'debutAt' => $date]);
+            $queryBuilder = $rondeRepository->createQueryBuilder('r');
+            $queryBuilder->where('r.token = :token')
+                ->andWhere('r.debutAt >= :startDate')
+                ->andWhere('r.debutAt <= :endDate')
+                ->andWhere('r.site = :site')
+     
+                ->setParameters([
+                    'token' => $token,
+                    'startDate' => $dateDebut,
+                    'site' => $siteChoisi,
+                    'endDate' => $endDate
+                   
+                ])
+                ->orderBy('r.debutAt', 'ASC');
 
-            // Créer une requête DQL avec createQueryBuilder
-$queryBuilder = $rondeRepository->createQueryBuilder('r');
-$queryBuilder->where('r.token = :token')
-    ->andWhere('r.debutAt'. ' >= :startDate')
-    ->andWhere('r.retourAt'. ' <= :endDate')
-    ->andWhere('r.site = :site')
-  
+            // Exécuter la requête et obtenir les résultats
+            $rondes = $queryBuilder->getQuery()->getResult();
 
-  
-    ->setParameters([
-        'token' => $token,
-        'startDate' => $date,
-        'endDate' => $endDate,
-        'site' => '1',
-       
-       
-    ])
-    ->orderBy('r.debutAt', 'ASC');
 
-// Exécuter la requête et obtenir les résultats
-$rondes = $queryBuilder->getQuery()->getResult();
-
-var_dump($endDate);
 
         }
       
