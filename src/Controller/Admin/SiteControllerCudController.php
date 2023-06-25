@@ -17,7 +17,7 @@ class SiteControllerCudController extends AbstractController
     public function index(SiteRepository $siteRepository): Response
     {
         return $this->render('site_controller_cud/index.html.twig', [
-            'sites' => $siteRepository->findAll(),
+            'sites' => $siteRepository->findBy(['token' => $this->getUser()->getId()]),
         ]);
     }
 

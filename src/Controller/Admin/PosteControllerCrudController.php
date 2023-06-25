@@ -17,7 +17,7 @@ class PosteControllerCrudController extends AbstractController
     public function index(PosteRepository $posteRepository): Response
     {
         return $this->render('poste_controller_crud/index.html.twig', [
-            'postes' => $posteRepository->findAll(),
+            'postes' => $posteRepository->findBy(['token' => $this->getUser()->getId()]),
         ]);
     }
 

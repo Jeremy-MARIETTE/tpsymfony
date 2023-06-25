@@ -7,22 +7,24 @@ use DateTime;
 use DateInterval;
 use App\Entity\Site;
 use App\Entity\User;
+use App\Entity\Poste;
 use App\Entity\Ronde;
 use App\Entity\Entreprise;
 use Doctrine\ORM\Query\Expr;
 use Doctrine\DBAL\Connection;
-use Doctrine\ORM\Query\Expr\Func;
 
+use Doctrine\ORM\Query\Expr\Func;
 use App\Repository\SiteRepository;
 use App\Repository\UserRepository;
+use App\Repository\PosteRepository;
 use App\Repository\RondeRepository;
 use Doctrine\ORM\EntityManagerInterface;
+
 use Doctrine\ORM\Query\ResultSetMapping;
 use Knp\Component\Pager\PaginatorInterface;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Knp\Bundle\PaginatorBundle\Pagination\SlidingPaginationInterface;
@@ -31,12 +33,14 @@ class AdminController extends AbstractController
 {
 
     private $entityManager;
+    private $posteRepository;
 
-    public function __construct(EntityManagerInterface $entityManager, RondeRepository $rondeRepository, SiteRepository $siteRepository)
+    public function __construct(EntityManagerInterface $entityManager, RondeRepository $rondeRepository, SiteRepository $siteRepository, PosteRepository $posteRepository)
     {
         $this->entityManager = $entityManager;
         $this->rondeRepository = $rondeRepository;
         $this->siteRepository = $siteRepository;
+        $this->poste = $posteRepository;
     }
     
     #[Route('/admin', name: 'app_admin')]
@@ -47,11 +51,21 @@ class AdminController extends AbstractController
         $userId = $this->getUser()->getId(); // Assurez-vous que cette méthode retourne l'ID du gérant actuel
         $token = $this->getUser()->getToken();
 
+        $poste = $this->poste->findBy(['agent' => $this->getUser()->getId()]);
+        $siteClient = $poste[0]->getSite()->getId();
+
         $entrepriseRepository = $this->entityManager->getRepository(Entreprise::class);
         $entreprise = $entrepriseRepository->findOneBy(['idGerant' => $userId]);
 
         $siteRepository = $this->entityManager->getRepository(Site::class);
         $site = $siteRepository->findBy(['token' => $token]);
+
+      
+
+        
+
+        
+
 
 
         $rondeRepository = $this->entityManager->getRepository(Ronde::class);
@@ -91,6 +105,24 @@ class AdminController extends AbstractController
         ->getQuery()
         ->getResult();
 
+        }
+
+        if( $this->isGranted('ROLE_UTILISATEUR')){
+            $query = $this->entityManager->createQueryBuilder()
+            ->select('s')
+            ->from(Site::class, 's')
+            ->innerJoin('s.postes', 'p')
+            ->where('p.token = :token')
+            ->andWhere('p.agent = :id')
+            ->setParameter('token', $this->getUser()->getToken())
+            ->setParameter('id', $this->getUser()->getId())
+            ->orderBy('s.nom', 'ASC')
+            ->getQuery();
+
+        $site = $query->getResult();
+
+
+            $rondes = $rondeRepository->findBy(['site' => $siteClient]);
         }
       
         else{

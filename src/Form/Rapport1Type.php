@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Rapport;
+use App\Repository\SiteRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -22,6 +23,17 @@ class Rapport1Type extends AbstractType
           
             ->add('site', null, [
                 'choice_label' => 'nom',
+                 //je veux un join en tre les tables site et poste
+                 'query_builder' => function (SiteRepository $siteRepository) {
+                    return $siteRepository->createQueryBuilder('s')
+                         ->innerJoin('s.postes', 'p')
+                         ->where('p.token = :token')
+                         ->andWhere('p.agent = :id')
+                         ->setParameter('token', $this->security->getUser()->getToken())
+                         ->setParameter('id', $this->security->getUser()->getId())
+                         ->orderBy('s.nom', 'ASC');
+                 },
+
             ])
             ->add('category', null, [
                 'choice_label' => 'nom',

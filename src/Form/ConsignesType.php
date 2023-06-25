@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Consignes;
+use App\Repository\SiteRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -21,6 +22,15 @@ class ConsignesType extends AbstractType
         $builder
             ->add('site', null, [
                 'choice_label' => 'nom',
+                'query_builder' => function (SiteRepository $siteRepository) {
+                    return $siteRepository->createQueryBuilder('s')
+                         ->innerJoin('s.postes', 'p')
+                         ->where('p.token = :token')
+                         ->andWhere('p.agent = :id')
+                         ->setParameter('token', $this->security->getUser()->getToken())
+                         ->setParameter('id', $this->security->getUser()->getId())
+                         ->orderBy('s.nom', 'ASC');
+                 },
             ])
             ->add('category', null, [
                 'choice_label' => 'nom',

@@ -17,7 +17,7 @@ class RondeControllerCrudController extends AbstractController
     public function index(RondeRepository $rondeRepository): Response
     {
         return $this->render('ronde_controller_crud/index.html.twig', [
-            'rondes' => $rondeRepository->findAll(),
+            'rondes' => $rondeRepository->findBy(['token' => $this->getUser()->getToken()]),
         ]);
     }
 

@@ -21,6 +21,7 @@ Administration{% endblock %}
    <div class="container">
                     <div class="text-center">
                         <h1 class="h3 mb-0 text-gray-800">Tableau de bord</h1>
+                        {{ app.user.roles[0]}}
                     </div>
 
                     <!-- Content Row -->
@@ -46,18 +47,20 @@ Administration{% endblock %}
                         </div>
                      </form>
 
-                     <form action="#" method="POST" class="col 3">
-                        <div class="input-group mb-4">
-                          <select name="site"  class=" col-3 custom-select" id="inputGroupSelect01">
-                              <option selected>Choisir le site</option>
-                                 {% for site in sites %}
-                                 <option value="{{ site.id }}">{{ site.nom }}</option>
-                                    {% endfor %}
-                           </select>
-                       <input type="date" name="date">
-                             <input type="submit" class="btn btn-primary" value="Valider">
-                        </div>
-                     </form>
+                     {% if  app.user.roles[0] != "ROLE_EMPLOYE" %}
+                        <form action="#" method="POST" class="col 3">
+                           <div class="input-group mb-4">
+                           <select name="site"  class=" col-3 custom-select" id="inputGroupSelect01">
+                                 <option selected>Choisir le site</option>
+                                    {% for site in sites %}
+                                    <option value="{{ site.id }}">{{ site.nom }}</option>
+                                       {% endfor %}
+                              </select>
+                        <input type="date" name="date">
+                              <input type="submit" class="btn btn-primary" value="Valider">
+                           </div>
+                        </form>
+                     {% endif %}
                                     
 
                            <table class="table table-striped">

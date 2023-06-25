@@ -36,7 +36,7 @@ class UserControllerCrudController extends AbstractController
     public function index(UserRepository $userRepository): Response
     {
         return $this->render('user_controller_crud/index.html.twig', [
-            'users' => $userRepository->findAll(),
+            'users' => $userRepository->findBy(['token'=> $this->getUser()->getId()]),
         ]);
     }
 

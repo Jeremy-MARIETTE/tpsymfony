@@ -11,6 +11,7 @@ use App\Entity\Entreprise;
 use App\Form\Rapport1Type;
 use App\Repository\SiteRepository;
 use App\Repository\UserRepository;
+use App\Repository\PosteRepository;
 use App\Repository\RapportRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,17 +34,37 @@ class RapportControllerCrudController extends AbstractController
         
     }
     #[Route('/', name: 'app_rapport_controller_crud_index', methods: ['GET'])]
-    public function index(RapportRepository $rapportRepository, SiteRepository $siteRepository, UserRepository $userRepository): Response
+    public function index(RapportRepository $rapportRepository, SiteRepository $siteRepository, UserRepository $userRepository, PosteRepository $posteRepository): Response
     {
-        return $this->render('rapport_controller_crud/index.html.twig', [
-            //faire une jointure pour afficher le nom du site et de l'entreprise
-
+        if($this->getUser()->getRoles()[0] == 'ROLE_EMPLOYE'){
+           $rapports = $rapportRepository->findBy(['token' => $this->getUser()->getToken(), 'auteur' => $this->getUser()->getId()]);
+        }
+        if($this->getUser()->getRoles()[0] == 'ROLE_UTILISATEUR'){
+            $agentId = $this->getUser()->getId();
             
-            'rapports' => $rapportRepository->findBy(['token' => $this->getUser()->getToken()]),
-            'sites' => $siteRepository->findBy(['token' => $this->getUser()->getToken()]),
-            'auteurs' => $userRepository->findBy(['token' => $this->getUser()->getToken()]),
-
-        ]);
+            // Récupérer les sites associés à l'agent
+            $sites = $posteRepository->findBy(['agent' => $agentId]);
+            $idSite = $sites[0]->getSite()->getId();
+            $rapports = $rapportRepository->findBy(['site' => $idSite]);
+         }
+         if($this->getUser()->getRoles()[0] == 'ROLE_USER'){
+            $rapports = $rapportRepository->findBy(['token' => $this->getUser()->getToken()]);
+         }
+   
+            return $this->render('rapport_controller_crud/index.html.twig', [
+                //faire une jointure pour afficher le nom du site et de l'entreprise
+          
+                'rapports' => $rapports,
+                'sites' => $siteRepository->findBy(['token' => $this->getUser()->getToken()]),
+                'auteurs' => $userRepository->findBy(['token' => $this->getUser()->getToken()]),
+            ]);
+       
+            return $this->render('rapport_controller_crud/index.html.twig', [
+                //faire une jointure pour afficher le nom du site et de l'entreprise
+          
+            ]);
+        
+      
     }
 
     #[Route('/new', name: 'app_rapport_controller_crud_new', methods: ['GET', 'POST'])]

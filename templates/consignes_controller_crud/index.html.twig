@@ -6,6 +6,8 @@
     <div class="container">
         <h1>Consignes</h1>
 
+             
+
         <table class="table">
             <thead>
                 <tr>
@@ -32,6 +34,11 @@
             </tbody>
         </table>
 
+        {% if app.user.roles[0] == "ROLE_USER" %}
+
         <a href="{{ path('app_consignes_controller_crud_new') }}">Créer une consigne</a>
+        
+        {% endif %}
+
         </div>
 {% endblock %}
