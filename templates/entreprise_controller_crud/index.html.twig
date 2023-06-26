@@ -13,6 +13,7 @@
                 <th>Nom</th>
                 <th>Adresse</th>
                 <th>Cp</th>
+                <th>Ville</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -23,6 +24,7 @@
                 <td>{{ entreprise.nom }}</td>
                 <td>{{ entreprise.adresse }}</td>
                 <td>{{ entreprise.cp }}</td>
+                <td>{{ entreprise.ville }}</td>
                 <td>
                     <a href="{{ path('app_entreprise_controller_crud_show', {'id': entreprise.id}) }}">show</a>
                     <a href="{{ path('app_entreprise_controller_crud_edit', {'id': entreprise.id}) }}">edit</a>

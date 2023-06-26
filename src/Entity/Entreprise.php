@@ -33,6 +33,9 @@ class Entreprise
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $tokenEntreprise = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $ville = null;
+
     public function __construct()
     {
         $this->tokenEntreprise = bin2hex(random_bytes(32));
@@ -98,6 +101,18 @@ class Entreprise
     public function setTokenEntreprise(?string $tokenEntreprise): self
     {
         $this->tokenEntreprise = $tokenEntreprise;
+
+        return $this;
+    }
+
+    public function getVille(): ?string
+    {
+        return $this->ville;
+    }
+
+    public function setVille(?string $ville): self
+    {
+        $this->ville = $ville;
 
         return $this;
     }

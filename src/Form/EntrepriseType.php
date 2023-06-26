@@ -25,6 +25,7 @@ class EntrepriseType extends AbstractType
             ->add('nom')
             ->add('adresse')
             ->add('cp')
+            ->add('ville')
             ->add('id_gerant', null, [
                 'data' => $this->security->getUser()->getId(),
                     'label_attr' => [

@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon profil{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <h1 class="text-center">Mon profil</h1>
+
+    
+
+    <div class="card-deck">
+  <div class="card">
+   
+    <div class="card-body">
+      <h5 class="card-title">{{user[0].prenom}} {{user[0].nom}}</h5>
+      <p class="card-text">{{user[0].email}}</p>
+        <p class="card-text">{{user[0].roles[0]}}</p>
+     
+      <p class="card-text">{{entreprise[0].nom}}</p>
+      <button type="button" class="btn btn-primary" data-toggle="modal" onclick="callUpdatePwd()"> Modifier mon mot de passe</button>
+    </div>
+  </div>
+
+    
+</div>
+{% endblock %}

@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use APP\Service\Pdf;
 use Dompdf\Dompdf;
 use App\Entity\Site;
 use App\Entity\User;
@@ -58,6 +59,10 @@ class RapportControllerCrudController extends AbstractController
                 'sites' => $siteRepository->findBy(['token' => $this->getUser()->getToken()]),
                 'auteurs' => $userRepository->findBy(['token' => $this->getUser()->getToken()]),
             ]);
+
+            
+
+            
        
             return $this->render('rapport_controller_crud/index.html.twig', [
                 //faire une jointure pour afficher le nom du site et de l'entreprise
@@ -66,6 +71,33 @@ class RapportControllerCrudController extends AbstractController
         
       
     }
+    #[Route('/pdf/{id}',  name: 'app_rapport_pdf', methods: ['GET'])]
+    public function rapportPdf(): Response
+    {
+        $dompdf = new Dompdf();
+        //je veux récupérer le rapport associé à l'id
+
+        $dompdf->loadHtml('Hello World !');
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+    
+        $output = $dompdf->output();
+    
+        return new Response(
+            $output,
+            Response::HTTP_OK,
+            [
+                'Content-Type' => 'application/pdf',
+                'Content-Disposition' => 'inline; filename="rapport.pdf"',
+                'Pragma' => 'public',
+                'Cache-Control' => 'public, must-revalidate',
+                'Content-Transfer-Encoding' => 'binary',
+            ]
+        );
+    }
+
+
+
 
     #[Route('/new', name: 'app_rapport_controller_crud_new', methods: ['GET', 'POST'])]
     public function new(Request $request, RapportRepository $rapportRepository, Security $security): Response
@@ -100,6 +132,8 @@ class RapportControllerCrudController extends AbstractController
         //find entreprise by token
         $entrepriseRepository = $entityManager->getRepository(Entreprise::class);
         $entreprise = $entrepriseRepository->findBy(['idGerant' => $rapport->getToken()]);
+
+      
 
         return $this->render('rapport_controller_crud/show.html.twig', [
             'rapport' => $rapport,

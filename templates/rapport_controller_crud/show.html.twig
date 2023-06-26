@@ -3,33 +3,68 @@
 {% block title %}Rapport{% endblock %}
 
 {% block body %}
+
     <div class="container">
+        
+
+        <div class="row"  id="content">
+
         <h1 class="text-center">Rapport</h1>
 
-        <div class="row">
-                <p class="text-left col-6"> <span class="font-weight-bold">{{ user[0].prenom}} {{user[0].nom}}</span></br>
-               {{ entreprise[0].nom }}<br>
-                {{ entreprise[0].adresse }}
-                {{ entreprise[0].cp }}
-              
-                </p>
-             
-   
-                <p class="text-right col-6"><span class="font-weight-bold">{{ rapport.site.nom }}</span></br>
-                {{ rapport.site.adresse }}<br>
-                {{ rapport.site.adresse }}
-                {{ rapport.site.cp }}
-                </p>
-        </div>
-        <p>Categorie : <span class="font-weight-bold">{{rapport.category.nom}}</span></p>
+       <table>
+    <tr class="d-flex justify-content-between">
+        <td class="text-left">
+            <p><span class="font-weight-bold">{{ user[0].prenom }} {{ user[0].nom }}</span></p>
+            <p>{{ entreprise[0].nom }}</p>
+            <p>{{ entreprise[0].adresse }}</p>
+            <p>{{ entreprise[0].cp }} {{ entreprise[0].ville }}</p>
+        </td>
+        <td class="text-right"  style="margin-left: 300px;">
+            <p><span class="font-weight-bold">{{ rapport.site.nom }}</span></p>
+            <p>{{ rapport.site.adresse }}</p>
+            <p>{{ rapport.site.cp }}</p>
+        </td>
+    </tr>
+</table>
+
+                <p>Categorie : <span class="font-weight-bold">{{rapport.category.nom}}</span></p>
         <p class="text-justify" style="height: 60vh">{{ rapport.content }}</p>
 
         <h6 class="text-right">Le : {{ rapport.createdAt ? rapport.createdAt|date('d-m-Y H:i:s') : '' }}</h6>
-
-       
-
-        <a href="{{ path('app_rapport_controller_crud_index') }}">back to list</a>
-
-       
         </div>
+        
+
+   
+
+       <button id="generate-pdf">Générer le PDF</button>
+        </div>
+
+           
+
+      <script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/0.9.0rc1/jspdf.min.js"></script>
+
+      <link href="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+        <script>
+            $(document).ready(function() {
+        $('#generate-pdf').on('click', function() {
+            // Récupérer le contenu du rapport
+            var rapportContent = $('#content').html();
+
+            // Configuration de html2pdf
+            var opt = {
+                margin: 1,
+                filename: 'rapport.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+
+            // Conversion du contenu HTML en PDF avec html2pdf
+            html2pdf().set(opt).from(rapportContent).save();
+        });
+    });
+        </script>
 {% endblock %}
