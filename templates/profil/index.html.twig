@@ -22,7 +22,10 @@
         <p class="card-text">{{user[0].roles[0]}}</p>
      
       <p class="card-text">{{entreprise[0].nom}}</p>
-      <button type="button" class="btn btn-primary" data-toggle="modal" onclick="callUpdatePwd()"> Modifier mon mot de passe</button>
+
+      <form action="profil/pwd" method="POST">
+        <button type="submit" class="btn btn-primary" data-toggle="modal" onclick="updatePwd()"> Modifier mon mot de passe</button>
+      </form>
     </div>
   </div>
 
