@@ -28,9 +28,10 @@
 </table>
 
                 <p>Categorie : <span class="font-weight-bold">{{rapport.category.nom}}</span></p>
-        <p class="text-justify" style="height: 60vh">{{ rapport.content }}</p>
+                 <h6 class="text-right">Le : {{ rapport.createdAt ? rapport.createdAt|date('d-m-Y H:i:s') : '' }}</h6>
+        <p class="text-justify" style="height: 50vh">{{ rapport.content }}</p>
 
-        <h6 class="text-right">Le : {{ rapport.createdAt ? rapport.createdAt|date('d-m-Y H:i:s') : '' }}</h6>
+       
         </div>
         
 

@@ -29,6 +29,20 @@ class Ronde
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $token = null;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $latDepart = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $lntDepart = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $latRetour = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $lntRetour = null;
+
+ 
+
     public function getId(): ?int
     {
         return $this->id;
@@ -93,4 +107,55 @@ class Ronde
 
         return $this;
     }
+
+    public function getLatDepart(): ?string
+    {
+        return $this->latDepart;
+    }
+
+    public function setLatDepart(?string $latDepart): self
+    {
+        $this->latDepart = $latDepart;
+
+        return $this;
+    }
+
+    public function getLntDepart(): ?string
+    {
+        return $this->lntDepart;
+    }
+
+    public function setLntDepart(?string $lntDepart): self
+    {
+        $this->lntDepart = $lntDepart;
+
+        return $this;
+    }
+
+    public function getLatRetour(): ?string
+    {
+        return $this->latRetour;
+    }
+
+    public function setLatRetour(?string $latRetour): self
+    {
+        $this->latRetour = $latRetour;
+
+        return $this;
+    }
+
+    public function getLntRetour(): ?string
+    {
+        return $this->lntRetour;
+    }
+
+    public function setLntRetour(?string $lntRetour): self
+    {
+        $this->lntRetour = $lntRetour;
+
+        return $this;
+    }
+  
+
+   
 }

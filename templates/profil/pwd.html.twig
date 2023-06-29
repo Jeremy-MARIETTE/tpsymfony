@@ -4,11 +4,24 @@
 
 {% block body %}
 
-     <h1>Modifier votre mot de passe</h1>
+    <div class="container">
+        <h1 class="text-center">Modifier votre mot de passe</h1>
 
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button type="submit">Mise à jour</button>
-    {{ form_end(form) }}
+        {% for flashMessage in app.flashes('error') %}
+            <div class="alert alert-danger">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+         {% for flashMessage in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button class="col btn btn-success" type="submit">Mise à jour</button>
+        {{ form_end(form) }}
+    </div>
 
 {% endblock %}

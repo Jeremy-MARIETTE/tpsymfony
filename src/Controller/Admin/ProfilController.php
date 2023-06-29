@@ -56,7 +56,7 @@ class ProfilController extends AbstractController
             $pwd = $data['password'];
             $confirmPwd = $data['confirmPassword'];
 
-            if($pwd == $confirmPwd){
+            if($pwd === $confirmPwd){
                 //var_dump('Les mots de passe sont identiques');
                 //Je veux modifier le mot de passe de l'utilisateur en la hashant
                 $user = $this->getUser();
@@ -68,10 +68,13 @@ class ProfilController extends AbstractController
 
                 $this->entityManager->persist($user);
                 $this->entityManager->flush();
-               
 
+                $this->addFlash('success', 'Votre mot de passe a été mis à jour.');
+               
             }else{
-                var_dump('Les mots de passe sont différents');
+
+                $this->addFlash('error', 'Les mots de passe sont différents.');
+
             }
 
 

@@ -13,11 +13,17 @@ class ProfilType extends AbstractType
     {
         $builder
         ->add('password', PasswordType::class, [
-            'label' => 'New Password',
+            'label' => false,
+            'attr' => [
+                'placeholder' => 'Nouveau mot de passe'
+            ],
           
         ])
         ->add('confirmPassword', PasswordType::class, [
-            'label' => 'Confirm Password',
+            'label' => false,
+            'attr' => [
+                'placeholder' => 'Confirmer le mot de passe'
+            ],
           
         ]);
     }

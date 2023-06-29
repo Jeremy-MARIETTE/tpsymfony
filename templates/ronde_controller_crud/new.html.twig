@@ -26,6 +26,24 @@
 
            //Mettre readonly
             document.getElementById('{{ form.debutAt.vars.id }}').readOnly = true;
+
+            //je veux afficher la longitute et la latitude dans une alerte
+            navigator.geolocation.getCurrentPosition(function(position) {
+                alert("Latitude : " + position.coords.latitude + " Longitude : " + position.coords.longitude);
+
+               var latDepartField = document.getElementById('ronde_latDepart');
+               var lntDepartField = document.getElementById('ronde_lntDepart');
+             
+                latDepartField.value = position.coords.latitude;
+                lntDepartField.value = position.coords.longitude;
+
+                
+
+
+            });
+
+         
+
             
         });
       
@@ -43,6 +61,21 @@
 
             //Metttre readonly
             document.getElementById('{{ form.retourAt.vars.id }}').readOnly = true;
+
+              //je veux afficher la longitute et la latitude dans une alerte
+            navigator.geolocation.getCurrentPosition(function(position) {
+                alert("Latitude : " + position.coords.latitude + " Longitude : " + position.coords.longitude);
+
+               var latRetourField = document.getElementById('ronde_latRetour');
+               var lntRetourField = document.getElementById('ronde_lntRetour');
+             
+                latRetourField.value = position.coords.latitude;
+                lntRetourField.value = position.coords.longitude;
+
+                
+
+
+            });
         
         });
     });
