@@ -29,12 +29,24 @@ Administration{% endblock %}
 
                             {% if app.user.roles[0] == "ROLE_USER" %}
                             {{ include('partials/infos_gerant.html.twig') }}  
+                            
                             {% endif %}
                      
                         </div>    
                       
-                      
+                         <div class="row">
+
+                            {% if app.user.roles[0] == "ROLE_USER" %}
+                           
+                            {{ include('map/map.html.twig')}}
+                            {% endif %}
+                     
+                        </div>
                     
+                  
+               
+
+                    <h2 class="text-center">Main courante</h2>
                      <form action="#" method="POST" class="col 4">
                         <div class="input-group mb-3">
                            <select name="site"  class=" col-3 custom-select" id="inputGroupSelect01">

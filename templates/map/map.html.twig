@@ -1,0 +1,70 @@
+
+             <!-- import carte leafleat -->
+                         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+                           integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+                           crossorigin=""/>
+                            <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+                        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+                        crossorigin=""></script>
+
+                            <pre>
+                                
+                                {% for ronde in rondes %}
+                            <th scope="row"></th>
+                            <td>
+                                {{ ronde.debutAt|date('d/m/Y H:i:s') }}
+                            </td>
+                            <td>
+                                départ : <span class="coord-depart" data-lat="{{ ronde.latDepart }}" data-lng="{{ ronde.lntDepart }}">{{ ronde.latDepart }} {{ ronde.lntDepart }}</span>
+                            </td>
+                            <td>
+                                retour : <span class="coord-retour" data-lat="{{ ronde.latRetour }}" data-lng="{{ ronde.lntRetour }}">{{ ronde.latRetour }} {{ ronde.lntRetour }}</span>
+                            </td>
+                                {% endfor %}
+                            </pre>
+                        <div class="col-md-12">
+                        <div id="map" style="height:40vh"></div>
+
+
+
+                      
+                      </div>
+
+                      <script>
+
+                        //getcurrentposition
+                        navigator.geolocation.getCurrentPosition(function(position) {
+                        console.log(position.coords.latitude, position.coords.longitude);
+                           
+                           var map = L.map('map').setView([position.coords.latitude, position.coords.longitude], 13);
+                        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                           maxZoom: 10,
+                           attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                        }).addTo(map);
+
+                           var departCoords = document.querySelectorAll('.coord-depart');
+                        var retourCoords = document.querySelectorAll('.coord-retour');
+
+                        departCoords.forEach(function(element) {
+                        var lat = parseFloat(element.dataset.lat);
+                        var lng = parseFloat(element.dataset.lng);
+                        L.marker([lat, lng]).addTo(map);
+                      
+                        
+                        });
+
+                        retourCoords.forEach(function(element) {
+                        var lat = parseFloat(element.dataset.lat);
+                        var lng = parseFloat(element.dataset.lng);
+                        L.marker([lat, lng]).addTo(map);
+                        });
+                       
+                       });
+              
+                    
+
+                   
+
+                    
+
+                     </script>

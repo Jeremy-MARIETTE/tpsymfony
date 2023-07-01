@@ -11,46 +11,42 @@
         <a href="{{ path('app_ronde_controller_crud_index') }}">Retour à la liste</a>
     </div>
 
-    <script>
-           document.addEventListener('DOMContentLoaded', function() {
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('ronde_debutAt').addEventListener('click', function() {
             var datetimeField = document.getElementById('{{ form.debutAt.vars.id }}');
             var now = new Date();
-      
-           //je veux l'heure actuelle + 4h
-              var datetimeField = document.getElementById('{{ form.debutAt.vars.id }}');
-            var now = new Date();
+            
+            // Je veux l'heure actuelle + 4h
             var formattedDateTime = new Date(now.toISOString().slice(0, 16)); // Utilisation de DateTimeImmutable
             formattedDateTime.setHours(formattedDateTime.getHours() + 4);
             datetimeField.value = formattedDateTime.toISOString().slice(0, 16);
-
-           //Mettre readonly
+            
+            // Mettre readonly
             document.getElementById('{{ form.debutAt.vars.id }}').readOnly = true;
 
-            //je veux afficher la longitute et la latitude dans une alerte
-            navigator.geolocation.getCurrentPosition(function(position) {
-                alert("Latitude : " + position.coords.latitude + " Longitude : " + position.coords.longitude);
+            // Je veux afficher la latitude et la longitude dans une alerte
+            var options = { enableHighAccuracy: true };
+            navigator.geolocation.getCurrentPosition(
+                function(position) {
+                    alert("GPS départ Latitude : " + position.coords.latitude + " Longitude : " + position.coords.longitude);
 
-               var latDepartField = document.getElementById('ronde_latDepart');
-               var lntDepartField = document.getElementById('ronde_lntDepart');
-             
-                latDepartField.value = position.coords.latitude;
-                lntDepartField.value = position.coords.longitude;
+                    var latDepartField = document.getElementById('ronde_latDepart');
+                    var lntDepartField = document.getElementById('ronde_lntDepart');
 
-                
-
-
-            });
-
-         
-
-            
+                    latDepartField.value = position.coords.latitude;
+                    lntDepartField.value = position.coords.longitude;
+                },
+                function(error) {
+                    console.error('Erreur de géolocalisation : ', error);
+                },
+                options
+            );
         });
-      
     });
-    </script>
+</script>
 
-     <script>
+<script>
     document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('ronde_retourAt').addEventListener('click', function() {
             var datetimeField = document.getElementById('{{ form.retourAt.vars.id }}');
@@ -59,25 +55,28 @@
             formattedDateTime.setHours(formattedDateTime.getHours() + 4);
             datetimeField.value = formattedDateTime.toISOString().slice(0, 16);
 
-            //Metttre readonly
+            // Mettre readonly
             document.getElementById('{{ form.retourAt.vars.id }}').readOnly = true;
 
-              //je veux afficher la longitute et la latitude dans une alerte
-            navigator.geolocation.getCurrentPosition(function(position) {
-                alert("Latitude : " + position.coords.latitude + " Longitude : " + position.coords.longitude);
+            // Je veux afficher la latitude et la longitude dans une alerte
+            var options = { enableHighAccuracy: true };
+            navigator.geolocation.getCurrentPosition(
+                function(position) {
+                    alert("GPS retour Latitude : " + position.coords.latitude + " Longitude : " + position.coords.longitude);
 
-               var latRetourField = document.getElementById('ronde_latRetour');
-               var lntRetourField = document.getElementById('ronde_lntRetour');
-             
-                latRetourField.value = position.coords.latitude;
-                lntRetourField.value = position.coords.longitude;
+                    var latRetourField = document.getElementById('ronde_latRetour');
+                    var lntRetourField = document.getElementById('ronde_lntRetour');
 
-                
-
-
-            });
-        
+                    latRetourField.value = position.coords.latitude;
+                    lntRetourField.value = position.coords.longitude;
+                },
+                function(error) {
+                    console.error('Erreur de géolocalisation : ', error);
+                },
+                options
+            );
         });
     });
 </script>
+
 {% endblock %}
