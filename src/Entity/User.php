@@ -49,6 +49,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $token = null;
 
+    #[ORM\OneToMany(mappedBy: 'idAgent', targetEntity: PriseDeService::class)]
+    private Collection $dateService;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -56,6 +59,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->siteUsers = new ArrayCollection();
         $this->posteTravails = new ArrayCollection();
         $this->postes = new ArrayCollection();
+        $this->dateService = new ArrayCollection();
     }
     
     public function getId(): ?int
@@ -241,6 +245,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setToken(?string $token): self
     {
         $this->token = $token;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PriseDeService>
+     */
+    public function getDateService(): Collection
+    {
+        return $this->dateService;
+    }
+
+    public function addDateService(PriseDeService $dateService): self
+    {
+        if (!$this->dateService->contains($dateService)) {
+            $this->dateService->add($dateService);
+            $dateService->setIdAgent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDateService(PriseDeService $dateService): self
+    {
+        if ($this->dateService->removeElement($dateService)) {
+            // set the owning side to null (unless already changed)
+            if ($dateService->getIdAgent() === $this) {
+                $dateService->setIdAgent(null);
+            }
+        }
 
         return $this;
     }

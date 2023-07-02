@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PriseDeService{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1 class="text-center">PriseDeService</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ prise_de_service.id }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ prise_de_service.Date ? prise_de_service.Date|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>DateFin</th>
+                <td>{{ prise_de_service.dateFin ? prise_de_service.dateFin|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>LatDebut</th>
+                <td>{{ prise_de_service.latDebut }}</td>
+            </tr>
+            <tr>
+                <th>LngDebut</th>
+                <td>{{ prise_de_service.lngDebut }}</td>
+            </tr>
+            <tr>
+                <th>LatFin</th>
+                <td>{{ prise_de_service.latFin }}</td>
+            </tr>
+            <tr>
+                <th>LntFin</th>
+                <td>{{ prise_de_service.lntFin }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_prise_de_service_crud_index') }}">back to list</a>
+
+    <a href="{{ path('app_prise_de_service_crud_edit', {'id': prise_de_service.id}) }}">edit</a>
+
+    {{ include('prise_de_service_crud/_delete_form.html.twig') }}
+</div>
+{% endblock %}

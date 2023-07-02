@@ -7,13 +7,11 @@
                         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
                         crossorigin=""></script>
 
-                            <pre>
+                            <pre style="display: none;">
                                 
                                 {% for ronde in rondes %}
                             <th scope="row"></th>
-                            <td>
-                                {{ ronde.debutAt|date('d/m/Y H:i:s') }}
-                            </td>
+                          
                             <td>
                                 départ : <span class="coord-depart" data-lat="{{ ronde.latDepart }}" data-lng="{{ ronde.lntDepart }}">{{ ronde.latDepart }} {{ ronde.lntDepart }}</span>
                             </td>
@@ -22,6 +20,7 @@
                             </td>
                                 {% endfor %}
                             </pre>
+                            
                         <div class="col-md-12">
                         <div id="map" style="height:40vh"></div>
 
@@ -36,13 +35,13 @@
                         navigator.geolocation.getCurrentPosition(function(position) {
                         console.log(position.coords.latitude, position.coords.longitude);
                            
-                           var map = L.map('map').setView([position.coords.latitude, position.coords.longitude], 13);
+                           var map = L.map('map').setView([position.coords.latitude, position.coords.longitude], 10);
                         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                           maxZoom: 10,
+                           maxZoom: 19,
                            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                         }).addTo(map);
 
-                           var departCoords = document.querySelectorAll('.coord-depart');
+                        var departCoords = document.querySelectorAll('.coord-depart');
                         var retourCoords = document.querySelectorAll('.coord-retour');
 
                         departCoords.forEach(function(element) {

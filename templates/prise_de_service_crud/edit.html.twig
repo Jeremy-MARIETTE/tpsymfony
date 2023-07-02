@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit PriseDeService{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1 class="text-center">Fin de service</h1>
+
+    {{ include('prise_de_service_crud/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_prise_de_service_crud_index') }}">back to list</a>
+
+    {{ include('prise_de_service_crud/_delete_form.html.twig') }}
+</div>
+
+
+ <script>
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+        var element = document.getElementById('prise_de_service_Date');
+        element.style.display = 'none';
+        document.getElementById('prise_de_service_dateFin').addEventListener('click', function() {
+            //alert('Vous avez cliqué sur le bouton !');
+
+         var datetimeField = document.getElementById('prise_de_service_dateFin');
+         var now = new Date();
+            
+        // Je veux l'heure actuelle + 4h
+        var formattedDateTime = new Date(now.toISOString().slice(0, 16)); // Utilisation de DateTimeImmutable
+        formattedDateTime.setHours(formattedDateTime.getHours() + 4);
+        datetimeField.value = formattedDateTime.toISOString().slice(0, 16);
+
+
+         // Mettre readonly
+        document.getElementById('prise_de_service_dateFin').readOnly = true;
+            
+           // Je veux afficher la latitude et la longitude dans une alerte
+            var options = { enableHighAccuracy: true };
+            navigator.geolocation.getCurrentPosition(
+                function(position) {
+                    alert("GPS départ Latitude : " + position.coords.latitude + " Longitude : " + position.coords.longitude);
+
+                    var latDepartField = document.getElementById('prise_de_service_latFin');
+                    var lntDepartField = document.getElementById('prise_de_service_lntFin');
+
+                    latDepartField.value = position.coords.latitude;
+                    lntDepartField.value = position.coords.longitude;
+                },
+                function(error) {
+                    console.error('Erreur de géolocalisation : ', error);
+                },
+                options
+            );
+
+
+
+
+
+    });
+    });
+</script>
+
+
+{% endblock %}
