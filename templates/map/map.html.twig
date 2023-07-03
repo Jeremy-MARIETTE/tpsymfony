@@ -9,19 +9,22 @@
 
                             <pre style="display: none;">
                                 
-                                {% for ronde in rondes %}
+                                {% for agents in agent %}
+
+                                 {{dump(agents.id)}}
                             <th scope="row"></th>
-                          
+                               
                             <td>
-                                départ : <span class="coord-depart" data-lat="{{ ronde.latDepart }}" data-lng="{{ ronde.lntDepart }}">{{ ronde.latDepart }} {{ ronde.lntDepart }}</span>
+                                départ : <span class="coord-depart" data-lat="{{ agents.LatDebut }}" data-lng="{{ agents.LngDebut }}" data-prenom="{{ agents.idAgent.prenom }}" data-nom="{{ agents.idAgent.nom }}">{{ agents.LatDebut }} {{ agents.LngDebut }} {{ agents.idAgent.prenom }} {{ agents.idAgent.nom }}</span>
                             </td>
                             <td>
-                                retour : <span class="coord-retour" data-lat="{{ ronde.latRetour }}" data-lng="{{ ronde.lntRetour }}">{{ ronde.latRetour }} {{ ronde.lntRetour }}</span>
+                                retour : <span class="coord-retour" data-lat="{{ agents.latFin }}" data-lng="{{ agents.lntFin }}">{{ agents.latFin }} {{ agents.lntFin }}</span>
                             </td>
                                 {% endfor %}
                             </pre>
                             
                         <div class="col-md-12">
+                            <h3 class="text-center">Agents en service</h3>
                         <div id="map" style="height:40vh"></div>
 
 
@@ -47,7 +50,11 @@
                         departCoords.forEach(function(element) {
                         var lat = parseFloat(element.dataset.lat);
                         var lng = parseFloat(element.dataset.lng);
-                        L.marker([lat, lng]).addTo(map);
+                        var nom = element.dataset.nom;
+                        var prenom = element.dataset.prenom;
+                        L.marker([lat, lng]).addTo(map)
+                        .bindPopup(prenom+" "+nom)
+                        .openPopup();
                       
                         
                         });

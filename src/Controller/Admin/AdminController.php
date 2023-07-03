@@ -13,16 +13,17 @@ use App\Entity\Entreprise;
 use Doctrine\ORM\Query\Expr;
 use Doctrine\DBAL\Connection;
 
+use App\Entity\PriseDeService;
 use Doctrine\ORM\Query\Expr\Func;
 use App\Repository\SiteRepository;
 use App\Repository\UserRepository;
 use App\Repository\PosteRepository;
 use App\Repository\RondeRepository;
+
 use Doctrine\ORM\EntityManagerInterface;
-
 use Doctrine\ORM\Query\ResultSetMapping;
-use Knp\Component\Pager\PaginatorInterface;
 
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -59,6 +60,9 @@ class AdminController extends AbstractController
 
         $siteRepository = $this->entityManager->getRepository(Site::class);
         $site = $siteRepository->findBy(['token' => $token]);
+
+        $priseDeService = $this->entityManager->getRepository(PriseDeService::class);
+        $agent = $priseDeService->findBy(['token' => $token, 'dateFin' => null]);
 
       
 
@@ -183,6 +187,7 @@ class AdminController extends AbstractController
         'rondes' => $rondes,
         'sites' => $site,
         'siteChoisi' => $siteChoisi,
+        'agent' => $agent,
       
         'user' => $user
     ]);

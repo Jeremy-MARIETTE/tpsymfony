@@ -35,6 +35,9 @@ class PriseDeService
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $lntFin = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $token = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -120,6 +123,18 @@ class PriseDeService
     public function setLntFin(?string $lntFin): self
     {
         $this->lntFin = $lntFin;
+
+        return $this;
+    }
+
+    public function getToken(): ?string
+    {
+        return $this->token;
+    }
+
+    public function setToken(string $token): self
+    {
+        $this->token = $token;
 
         return $this;
     }

@@ -80,6 +80,14 @@ class PriseDeServiceType extends AbstractType
                 ],
 
             ])
+            ->add('token', null, [
+                
+                'data' => $this->security->getUser()->getToken(),
+                'label_attr' => ['style' => 'display: none;'],
+                'attr' => ['style' => 'display: none;'],
+            ])
+            
+            
         ;
     }
 
