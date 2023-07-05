@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Messagerie{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="text-center">Messagerie</h1>
+
+                    {% for message in app.flashes('error') %}
+                    <div class="alert alert-danger">
+                        {{ flashMessage }}
+                    </div>
+                    {% endfor %}
+                    {% for message in app.flashes('success') %}
+                        <div class="alert alert-success">
+                            {{ message }}
+                            <button type="button"  class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+
+            <p>Résumé de la messagerie </p>
+            <p>Nombre de messages reçus : {{app.user.received|length}} </p>
+            <p>Nombre de messages envoyés : {{app.user.sent|length}} </p>
+
+            <a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
+            Voir mes dossiers
+            </a>
+
+            <a class="btn btn-primary" href="send" role="button">Envoyer un message</a>
+
+        </div>
+    </div>
+   <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+  <div class="offcanvas-header">
+    <h2 class="offcanvas-title" id="offcanvasExampleLabel">Mes dossiers</h2>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+
+    <div class="list-group">
+
+        <a href="messages" class="list-group-item list-group-item-action active">Accueil</a>
+        <a href="received" class="list-group-item list-group-item-action">Boîte de réception</a>
+        <a href="messages" class="list-group-item list-group-item-action">Eléments envoyés</a>
+    </div>
+
+
+  </div>
+</div>
+</div>
+{% endblock %}
