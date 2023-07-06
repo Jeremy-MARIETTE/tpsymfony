@@ -6,6 +6,7 @@ use App\Entity\Messages;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
@@ -16,12 +17,16 @@ class MessagesType extends AbstractType
         $builder
             ->add('title')
             ->add('message', TextareaType::class)
-            ->add('recepient', null, [
-                //je veux afficher le prenom et le nom de l'utilisateur
+            ->add('recepient', ChoiceType::class, [
+                'choices' => $options['recepient'],
                 'choice_label' => function ($user) {
                     return $user->getPrenom() . ' ' . $user->getNom();
                 },
+                //je veux afficher les utilisateurs qui ont le token de l'utilisateur connecté
+                
             ])
+
+         
             ->add('Envoyer', SubmitType::class, [
                 'attr' => ['class' => 'btn btn-primary'],
             ])
@@ -32,6 +37,9 @@ class MessagesType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Messages::class,
+            'recepient' => [], 
         ]);
     }
+
+    
 }

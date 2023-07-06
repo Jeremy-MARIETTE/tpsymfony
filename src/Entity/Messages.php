@@ -2,9 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\MessagesRepository;
+use App\Entity\User;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\MessagesRepository;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: MessagesRepository::class)]
 class Messages
@@ -34,12 +36,14 @@ class Messages
     #[ORM\JoinColumn(nullable: false)]
     private ?User $recepient = null;
 
+    
     public function __construct()
     {
         // Create a new DateTimeImmutable object instead of DateTime
         $this->created_at = new \DateTimeImmutable();
 
         $this->is_read = false;
+  
     }
 
     public function getId(): ?int
