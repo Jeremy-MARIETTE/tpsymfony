@@ -13,8 +13,8 @@
     <div class="row">
         <div class="col-md-12">
         
-         <h1 class="text-center">Messages reçus</h1>
-            <p>Nombre de messages reçus : {{app.user.received|length}} </p>
+         <h1 class="text-center">Elements envoyés</h1>
+            <p>Nombre de messages envoyés : {{app.user.sent|length}} </p>
 
 
         
@@ -30,7 +30,7 @@
   </thead>
     <tbody>
  
-            {% for message in app.user.received %}
+            {% for message in app.user.sent %}
 
             {% if message.isRead == 0 %}
                 {% set bold = "fw-bold" %}

@@ -2,9 +2,10 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\User;
 use App\Entity\Messages;
-use App\Form\MessagesType;
 
+use App\Form\MessagesType;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,7 +33,14 @@ class MessagesController extends AbstractController
     public function send(Request $request): Response
     {
         $message = new Messages();
-        $form = $this->createForm(MessagesType::class, $message);
+      
+        $recepientChoices  =  $this->managerRegistry->getManager()->getRepository(User::class)->findBy(['token' => $this->getUser()->getToken()]);
+
+        $form = $this->createForm(MessagesType::class, $message, [
+            'recepient' => $recepientChoices,
+        ]);
+
+      
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -58,5 +66,33 @@ class MessagesController extends AbstractController
     public function received(): Response
     {
         return $this->render('messages/received.html.twig');
+    }
+
+    #[Route('admin/sent', name: 'app_sent')]
+    public function sent(): Response
+    {
+        return $this->render('messages/sent.html.twig');
+    }
+
+    #[Route('admin/read/{id}', name: 'app_read')]
+    public function read(Messages $message): Response
+    {
+        $message->setIsRead(true);
+        $entityManager = $this->managerRegistry->getManager();
+        $entityManager->persist($message);
+        $entityManager->flush();
+
+        return $this->render('messages/read.html.twig', compact('message'));
+    }
+
+    #[Route('admin/delete/{id}', name: 'app_delete')]
+    public function delete(Messages $message): Response
+    {
+        $message->setIsRead(true);
+        $entityManager = $this->managerRegistry->getManager();
+        $entityManager->remove($message);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_received');
     }
 }
