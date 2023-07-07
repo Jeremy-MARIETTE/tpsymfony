@@ -15,8 +15,6 @@ class MessagesType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('title')
-            ->add('message', TextareaType::class)
             ->add('recepient', ChoiceType::class, [
                 'choices' => $options['recepient'],
                 'choice_label' => function ($user) {
@@ -25,10 +23,12 @@ class MessagesType extends AbstractType
                 //je veux afficher les utilisateurs qui ont le token de l'utilisateur connecté
                 
             ])
+            ->add('title')
+            ->add('message', TextareaType::class)
 
          
             ->add('Envoyer', SubmitType::class, [
-                'attr' => ['class' => 'btn btn-primary'],
+                'attr' => ['class' => 'col btn btn-primary'],
             ])
         ;
     }
