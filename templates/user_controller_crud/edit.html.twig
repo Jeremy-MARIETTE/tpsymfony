@@ -6,9 +6,9 @@
 <div class="container">
     <h1 class="text-center">Modifier compte</h1>
 
-    {{ include('user_controller_crud/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('user_controller_crud/_form.html.twig', {'button_label': 'Mise à jour'}) }}
 
-    <a href="{{ path('app_user_controller_crud_index') }}">back to list</a>
+    <a class="btn btn-primary" href="{{ path('app_user_controller_crud_index') }}">Retour</a>
 
     {{ include('user_controller_crud/_delete_form.html.twig') }}
 </div>

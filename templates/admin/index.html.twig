@@ -10,15 +10,8 @@ Administration{% endblock %}
    {{ include('partials/menu_gerant.html.twig') }}  
 {% endif %}
 
-{% if app.user.roles[0] == "ROLE_EMPLOYE" %}
-   {{ include('partials/menu_employe.html.twig') }}  
-{% endif %}
-
-{% if app.user.roles[0] == "ROLE_UTILISATEUR" %}
-   {{ include('partials/menu_utilisateur.html.twig') }}  
-{% endif %}
    <!-- Page Heading -->
-   <div class="container">
+   <div class="container-fluid">
                     <div class="text-center">
                         <h1 class="h3 mb-0 text-gray-800">Tableau de bord</h1>
                         {{ app.user.roles[0]}}
@@ -31,25 +24,47 @@ Administration{% endblock %}
                             {{ include('partials/infos_gerant.html.twig') }}  
                             
                             {% endif %}
+
+                            {% if app.user.roles[0] == "ROLE_UTILISATEUR" %}
+                              {{ include('partials/infos_utilisateur.html.twig') }}  
+                           {% endif %}
                      
                         </div>    
                       
                          <div class="row">
 
                             {% if app.user.roles[0] == "ROLE_USER" %}
-                           
+                       
+                            
                             {{ include('map/map.html.twig')}}
                             {% endif %}
                      
                         </div>
+
+                          <div class="row">
+
+                            {% if app.user.roles[0] == "ROLE_EMPLOYE" %}       
+                             {{ include('partials/header_agent.html.twig') }}  
+                            {% endif %}
+                     
+                        </div>
                     
-                  
+                     
                
 
                     <h2 class="text-center">Main courante</h2>
-                     <form action="#" method="POST" class="col 4">
-                        <div class="input-group mb-3">
-                           <select name="site"  class=" col-3 custom-select" id="inputGroupSelect01">
+                 
+                                    
+                     {% if app.user.roles[0] == "ROLE_USER"  %}
+                           <table class="table table-striped col-8">
+                     {% else %}
+                           <table class="container table table-striped col-8">
+                     {% endif %}
+
+                     {% if app.user.roles[0] == "ROLE_EMPLOYE" %}
+                         <form action="#" method="POST" class="col 4">
+                        <div class="container input-group mb-3">
+                           <select name="site"  class="col-3 custom-select" id="inputGroupSelect01">
                               <option selected>Choisir le site</option>
                                  {% for site in sites %}
                                  <option value="{{ site.id }}">{{ site.nom }}</option>
@@ -59,9 +74,11 @@ Administration{% endblock %}
                         </div>
                      </form>
 
+                     {% endif %}
+
                      {% if  app.user.roles[0] != "ROLE_EMPLOYE" %}
                         <form action="#" method="POST" class="col 3">
-                           <div class="input-group mb-4">
+                           <div class="container input-group mb-4">
                            <select name="site"  class=" col-3 custom-select" id="inputGroupSelect01">
                                  <option selected>Choisir le site</option>
                                     {% for site in sites %}
@@ -73,17 +90,13 @@ Administration{% endblock %}
                            </div>
                         </form>
                      {% endif %}
-                                    
-
-                           <table class="table table-striped">
-
                          
                               <thead>
                               {% if siteChoisi is not empty %}
                                   <h2 class="text-center">{{siteChoisi.nom}}</h2>
                               {% endif %}
                                  <tr>
-                                    <th scope="col"></th>
+                               
                                    
                                     <th scope="col">Départ</th>
                                     <th scope="col">Observation</th>
@@ -121,7 +134,52 @@ Administration{% endblock %}
                                        {% if rondes %}
                                   
                                        {% endif %}
-                       
+
+                        <!-- Agents en service -->
+                             {% if app.user.roles[0] == "ROLE_USER" %}
+                            <table class="row table table-striped col-4">
+
+                         
+                              <thead>
+                           
+                                 <tr>
+                                    <th scope="col"></th>
+                                   
+                                    <th class="col-4">Nom</th>
+                                    <th class="col-4">Prise de service</th>
+                               
+                                 </tr>
+                              </thead>
+                              <tbody>
+                                 <tr>
+                                    
+                                    
+                                    {% for agents in agent %}
+                                       <th scope="row"></th>
+                                          
+                                             <td class="">
+                                               {{agents.idAgent.prenom|slice(0, 1)}} {{agents.idAgent.nom}}
+                                             </td>
+                                             <td class="col-4">
+                                                {{ agents.date|date('d/m/Y H:i:s')}}
+                                             </td>
+                                             
+                                          </tr>
+                                       {% endfor %}
+
+                                   
+                                              
+                                 </tbody>
+
+                              </table>  
+
+
+
+
+                                       {% if rondes %}
+                                  
+                                       {% endif %}
+                              {% endif %}
                          
                     </div>
 {% endblock %}

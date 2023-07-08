@@ -4,17 +4,21 @@
 
 {% block body %}
     <div class="container">
-        <h1>Site</h1>
+        <h1 class="text-center">Site</h1>
 
         <table class="table">
             <tbody>
                 <tr>
-                    <th>Id</th>
-                    <td>{{ site.id }}</td>
-                </tr>
-                <tr>
                     <th>Nom</th>
                     <td>{{ site.nom }}</td>
+                </tr>
+                 <tr>
+                    <th>Adresse</th>
+                    <td></td>
+                </tr>
+                 <tr>
+                    <th>Ville</th>
+                    <td></td>
                 </tr>
                 <tr>
                     <th>Cp</th>
@@ -23,9 +27,9 @@
             </tbody>
         </table>
 
-        <a href="{{ path('app_site_controller_cud_index') }}">back to list</a>
+        <a class="btn btn-primary" href="{{ path('app_site_controller_cud_index') }}">Retour</a>
 
-        <a href="{{ path('app_site_controller_cud_edit', {'id': site.id}) }}">edit</a>
+        <a class="btn btn-primary" href="{{ path('app_site_controller_cud_edit', {'id': site.id}) }}">Editer</a>
 
         {{ include('site_controller_cud/_delete_form.html.twig') }}
     </div>

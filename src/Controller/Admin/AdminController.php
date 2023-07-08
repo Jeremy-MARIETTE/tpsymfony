@@ -53,7 +53,11 @@ class AdminController extends AbstractController
         $token = $this->getUser()->getToken();
 
         $poste = $this->poste->findBy(['agent' => $this->getUser()->getId()]);
-        $siteClient = $poste[0]->getSite()->getId();
+        if($poste){
+            $siteClient = $poste[0]->getSite()->getId();
+        }else{
+        $siteClient = "";
+        }
 
         $entrepriseRepository = $this->entityManager->getRepository(Entreprise::class);
         $entreprise = $entrepriseRepository->findOneBy(['idGerant' => $userId]);

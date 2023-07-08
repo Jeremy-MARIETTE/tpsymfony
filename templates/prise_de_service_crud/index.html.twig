@@ -5,38 +5,32 @@
 {% block body %}
 
 <div class="container">
-    <h1 class="text-center">PriseDeService index</h1>
+    <h1 class="text-center">Prise et fin de service</h1>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
+               
                 <th>Date</th>
                 <th>DateFin</th>
-                <th>LatDebut</th>
-                <th>LngDebut</th>
-                <th>LatFin</th>
-                <th>LntFin</th>
-                <th>actions</th>
+              
+                <th>action</th>
             </tr>
         </thead>
         <tbody>
         {% for prise_de_service in prise_de_services %}
             <tr>
-                <td>{{ prise_de_service.id }}</td>
+               
                 <td>{{ prise_de_service.Date ? prise_de_service.Date|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ prise_de_service.dateFin ? prise_de_service.dateFin|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ prise_de_service.latDebut }}</td>
-                <td>{{ prise_de_service.lngDebut }}</td>
-                <td>{{ prise_de_service.latFin }}</td>
-                <td>{{ prise_de_service.lntFin }}</td>
+             
                 <td>
-                    <a href="{{ path('app_prise_de_service_crud_edit', {'id': prise_de_service.id}) }}">Fin de service</a>
+                    <a class="btn btn-danger" href="{{ path('app_prise_de_service_crud_edit', {'id': prise_de_service.id}) }}">Fin de service</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="8">no records found</td>
+                <td colspan="8"></td>
             </tr>
         {% endfor %}
         </tbody>
@@ -45,7 +39,7 @@
   
 
     {% if prise_de_services|length < 1 %}
-         <a href="{{ path('app_prise_de_service_crud_new') }}">Create new</a>
+         <a class="btn btn-success" href="{{ path('app_prise_de_service_crud_new') }}">Prise de service</a>
     {% endif %}
 </div>
 {% endblock %}

@@ -5,10 +5,11 @@
 
         {% block body %}
     <div class="container">
-            <h1>Create new Rapport</h1>
+            <h1 class="text-center">Rédaction rapport</h1>
 
             {{ include('rapport_controller_crud/_form.html.twig') }}
 
-            <a href="{{ path('app_rapport_controller_crud_index') }}">back to list</a>
+            </br>
+            <a class="btn btn-primary" href="{{ path('app_rapport_controller_crud_index') }}">Retour à la liste</a>
     </div>
 {% endblock %}

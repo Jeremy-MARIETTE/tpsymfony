@@ -3,9 +3,7 @@
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-                <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
-                </div>
+              
                 <div class="sidebar-brand-text mx-3">
                     {% if entreprise is not null %}
                         {{ entreprise.nom }}
@@ -43,12 +41,12 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Mon compte pro:</h6>
-                        <a class="collapse-item" href="admin/entreprise/controller/crud">Infos compte pro</a>
-                        <a class="collapse-item" href="admin/user/controller/crud/">Créer utilisateurs</a>
+                        <a class="collapse-item" href="admin/entreprise/controller/crud"><i class="fas fa-user-circle fa-lg"></i> Infos compte pro</a>
+                        <a class="collapse-item" href="admin/user/controller/crud/"><i class="fas fa-user-plus fa-lg"></i> Utilisateurs</a>
 
-                         <a class="collapse-item" href="admin/site/controller/crud">Créer sites</a>
-                         <a class="collapse-item" href="admin/consignes/controller/crud/">Créer consignes site</a>
-                         <a class="collapse-item" href="admin/poste/controller/crud">Affectation sites</a>
+                         <a class="collapse-item" href="admin/site/controller/crud"><i class="fas fa-industry fa-lg"></i> Sites</a>
+                         <a class="collapse-item" href="admin/consignes/controller/crud/"><i class="fas fa-file-pdf fa-lg"></i> Consignes site</a>
+                         <a class="collapse-item" href="admin/poste/controller/crud"><i class="fas fa-calendar-plus fa-lg"></i> Affectation sites</a>
                     </div>
                 </div>
             </li>
@@ -64,11 +62,11 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Mes services:</h6>
-                        <a class="collapse-item" href=" admin/prise/de/service/crud/">Prise/Fin de service</a>
+                        <a class="collapse-item" href="admin/prise/de/service/crud/"><i class="far fa-clock"></i> Prise/Fin de service</a>
                         <a class="collapse-item" href="admin/category/controller/crud">Catégories</a>
-                        <a class="collapse-item" href="admin/rapport/controller/crud">Créer un rapport</a>
-                        <a class="collapse-item" href="admin/ronde/controller/crud">Départ ronde</a>
-                          <a class="collapse-item" href="admin/messages">Messagerie</a>
+                        <a class="collapse-item" href="admin/rapport/controller/crud"><i class="far fa-file-alt fa-lg"></i> Rapport</a>
+                        <a class="collapse-item" href="admin/ronde/controller/crud"><i class="fas fa-eye"></i> Départ ronde</a>
+                        <a class="collapse-item" href="admin/messages"><i class="far fa-envelope fa-lg"></i> Messagerie</a>
                     </div>
                 </div>
             </li>

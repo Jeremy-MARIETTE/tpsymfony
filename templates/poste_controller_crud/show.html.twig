@@ -4,18 +4,28 @@
 
 {% block body %}
     <div class="container">
-        <h1>Poste</h1>
+        <h1 class="text-center">Poste</h1>
 
         <table class="table">
             <tbody>
                 <tr>
                     <th>Nom</th>
                     <th>Prénom</th>
+                    <th>Role</th>
                     <th>Site</th>
 
                     <tr>
                     <td>{{ poste.agent.nom }}</td>
                     <td>{{ poste.agent.prenom }}</td>
+                    <td>
+                     {% if poste.agent.roles[0] == "ROLE_EMPLOYE" %}
+                        Agent
+                    {% elseif poste.agent.roles[0] == "ROLE_UTILISATEUR" %}
+                        Client
+                    {% elseif poste.agent.roles[0] == "ROLE_USER" %}
+                        Administateur
+                    {% endif %}
+                    </td>
                     <td>{{ poste.site.nom }}</td>
                     </tr>
                     
@@ -23,10 +33,10 @@
             </tbody>
         </table>
 
-        <a href="{{ path('app_poste_controller_crud_index') }}">back to list</a>
+        <a class="btn btn-primary" href="{{ path('app_poste_controller_crud_index') }}">Retour</a>
 
-        <a href="{{ path('app_poste_controller_crud_edit', {'id': poste.id}) }}">edit</a>
-
+        <a class="btn btn-primary" href="{{ path('app_poste_controller_crud_edit', {'id': poste.id}) }}">Editer</a>
+       
         {{ include('poste_controller_crud/_delete_form.html.twig') }}
     </div>
 {% endblock %}

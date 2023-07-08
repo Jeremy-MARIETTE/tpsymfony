@@ -9,18 +9,6 @@
     <table class="table">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ user.id }}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{ user.email }}</td>
-            </tr>
-            <tr>
-                <th>Roles</th>
-                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-            </tr>
-            <tr>
                 <th>Nom</th>
                 <td>{{ user.nom }}</td>
             </tr>
@@ -29,15 +17,32 @@
                 <td>{{ user.prenom }}</td>
             </tr>
             <tr>
+                <th>Email</th>
+                <td>{{ user.email }}</td>
+            </tr>
+            <tr>
+                <th>Roles</th>
+                   <td>
+                    {% if user.roles[0] == "ROLE_EMPLOYE" %}
+                        Agent
+                    {% elseif user.roles[0] == "ROLE_UTILISATEUR" %}
+                        Client
+                    {% elseif user.roles[0] == "ROLE_USER" %}
+                        Administateur
+                    {% endif %}
+                </td>
+            </tr>
+         
+            <tr>
                 <th>Créé le</th>
                 <td>{{ user.createdAt ? user.createdAt|date('d-m-Y H:i:s') : '' }}</td>
             </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('app_user_controller_crud_index') }}">back to list</a>
+    <a class="btn btn-primary" href="{{ path('app_user_controller_crud_index') }}">Retour</a>
 
-    <a href="{{ path('app_user_controller_crud_edit', {'id': user.id}) }}">edit</a>
+    <a class="btn btn-primary" href="{{ path('app_user_controller_crud_edit', {'id': user.id}) }}">Editer</a>
 
     {{ include('user_controller_crud/_delete_form.html.twig') }}
     </div>

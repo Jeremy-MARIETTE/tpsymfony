@@ -5,11 +5,11 @@
 {% block body %}
  
     <div class="container">
-       <h1 class="text-center">Edit Entreprise</h1>
+       <h1 class="text-center">Compte entreprise</h1>
 
-        {{ include('entreprise_controller_crud/_form.html.twig', {'button_label': 'Update'}) }}
+        {{ include('entreprise_controller_crud/_form.html.twig', {'button_label': 'Modifier'}) }}
 
-        <a href="{{ path('app_entreprise_controller_crud_index') }}">back to list</a>
+        <a class="btn btn-primary" href="{{ path('app_entreprise_controller_crud_index') }}">Retour</a>
 
         {{ include('entreprise_controller_crud/_delete_form.html.twig') }}
     </div>

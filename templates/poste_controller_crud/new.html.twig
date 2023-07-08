@@ -3,9 +3,11 @@
 {% block title %}New Poste{% endblock %}
 
 {% block body %}
-    <h1>Create new Poste</h1>
+    <div class="container">
+        <h1 class="text-center">Ajouter une affectation à un site</h1>
 
-    {{ include('poste_controller_crud/_form.html.twig') }}
+        {{ include('poste_controller_crud/_form.html.twig') }}
 
-    <a href="{{ path('app_poste_controller_crud_index') }}">back to list</a>
+        <a class="btn btn-primary" href="{{ path('app_poste_controller_crud_index') }}">Retour</a>
+    </div>
 {% endblock %}

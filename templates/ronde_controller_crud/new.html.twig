@@ -4,11 +4,12 @@
 
 {% block body %}
     <div class="container">
-        <h1>Ronde</h1>
+        <h1 class="text-center">Ronde</h1>
 
         {{ include('ronde_controller_crud/_form.html.twig') }}
 
-        <a href="{{ path('app_ronde_controller_crud_index') }}">Retour à la liste</a>
+        </br>
+        <a class="btn btn-primary" href="{{ path('app_ronde_controller_crud_index') }}">Retour à la liste</a>
     </div>
 
 <script>
