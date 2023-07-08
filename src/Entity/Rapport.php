@@ -38,6 +38,12 @@ class Rapport
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $token = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $Is_read_chef = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $is_read_client = null;
+
 
 
     public function __construct()
@@ -119,6 +125,30 @@ class Rapport
     public function setToken(?string $token): self
     {
         $this->token = $token;
+
+        return $this;
+    }
+
+    public function isIsReadChef(): ?bool
+    {
+        return $this->Is_read_chef;
+    }
+
+    public function setIsReadChef(?bool $Is_read_chef): self
+    {
+        $this->Is_read_chef = $Is_read_chef;
+
+        return $this;
+    }
+
+    public function isIsReadClient(): ?bool
+    {
+        return $this->is_read_client;
+    }
+
+    public function setIsReadClient(?bool $is_read_client): self
+    {
+        $this->is_read_client = $is_read_client;
 
         return $this;
     }

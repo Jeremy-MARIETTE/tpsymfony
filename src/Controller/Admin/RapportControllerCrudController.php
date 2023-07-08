@@ -50,6 +50,7 @@ class RapportControllerCrudController extends AbstractController
          }
          if($this->getUser()->getRoles()[0] == 'ROLE_USER'){
             $rapports = $rapportRepository->findBy(['token' => $this->getUser()->getToken()]);
+            $site = $siteRepository->findBy(['token' => $this->getUser()->getToken()]);
          }
    
             return $this->render('rapport_controller_crud/index.html.twig', [
@@ -66,6 +67,7 @@ class RapportControllerCrudController extends AbstractController
        
             return $this->render('rapport_controller_crud/index.html.twig', [
                 //faire une jointure pour afficher le nom du site et de l'entreprise
+                'sites' => $siteRepository->findBy(['token' => $this->getUser()->getToken()]),
           
             ]);
         
@@ -100,22 +102,29 @@ class RapportControllerCrudController extends AbstractController
 
 
     #[Route('/new', name: 'app_rapport_controller_crud_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, RapportRepository $rapportRepository, Security $security): Response
+    public function new(Request $request, RapportRepository $rapportRepository, Security $security, SiteRepository $siteRepository): Response
     {
         $rapport = new Rapport();
         $rapport->setAuteur($security->getUser()->getId());
+        $rapport->setIsReadChef(false);
+        $rapport->setIsReadClient(false);
         $form = $this->createForm(Rapport1Type::class, $rapport);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+           
             $rapportRepository->save($rapport, true);
 
             return $this->redirectToRoute('app_rapport_controller_crud_index', [], Response::HTTP_SEE_OTHER);
         }
 
+
+
         return $this->renderForm('rapport_controller_crud/new.html.twig', [
             'rapport' => $rapport,
+            
             'form' => $form,
+            
         ]);
     }
 
@@ -132,6 +141,14 @@ class RapportControllerCrudController extends AbstractController
         //find entreprise by token
         $entrepriseRepository = $entityManager->getRepository(Entreprise::class);
         $entreprise = $entrepriseRepository->findBy(['idGerant' => $rapport->getToken()]);
+
+        if($security->getUser()->getRoles()[0] == 'ROLE_USER'){
+            $rapport->setIsReadChef(true);
+        }
+        
+        
+        $entityManager->persist($rapport);
+        $entityManager->flush();
 
       
 

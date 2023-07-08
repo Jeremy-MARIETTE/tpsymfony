@@ -20,8 +20,29 @@
        
            
             {% for rapport in rapports %}
+
+    {% if app.user.roles[0] == "ROLE_USER" %}
+
+        {% if rapport.isReadChef == 0 %}
+                        {% set bold = "fw-bold" %}
+                    {% else %}
+                        {% set bold = "" %}
+        {% endif %}
+        
+    {% endif %}
+
+    {% if app.user.roles[0] == "ROLE_UTILISATEUR" %}
+
+        {% if rapport.isReadClient == 0 %}
+                        {% set bold = "fw-bold" %}
+                    {% else %}
+                        {% set bold = "" %}
+        {% endif %}
+        
+    {% endif %}
+               
                 <tr>
-                    <td>
+                    <td class="{{bold}}">
                     
                     {% for auteur in auteurs %}
                                     {% if auteur.id == rapport.auteur %}
@@ -42,7 +63,7 @@
 
                 {% for site in sites %}
                                     {% if site.id == rapport.site.id %}
-                                    <td>{{ site.nom }}</td>
+                                    <td class="{{bold}}">{{ site.nom }}</td>
                                     {% endif %}
                 {% endfor %}
 
@@ -50,8 +71,8 @@
                
 
                     
-                    <td>{{ rapport.content }}</td>
-                    <td>{{ rapport.createdAt ? rapport.createdAt|date('d-m-Y H:i:s') : '' }}</td>
+                    <td class="{{bold}}">{{ rapport.content }}</td>
+                    <td class="{{bold}}">{{ rapport.createdAt ? rapport.createdAt|date('d-m-Y H:i:s') : '' }}</td>
                     <td>
                         <a href="{{ path('app_rapport_controller_crud_show', {'id': rapport.id}) }}"><i class="fas fa-eye fa-lg"></i></a>
                      

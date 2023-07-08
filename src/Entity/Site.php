@@ -36,6 +36,9 @@ class Site
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $token = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $ville = null;
+
 
     public function __construct()
     {
@@ -253,6 +256,18 @@ class Site
     public function setToken(?string $token): self
     {
         $this->token = $token;
+
+        return $this;
+    }
+
+    public function getVille(): ?string
+    {
+        return $this->ville;
+    }
+
+    public function setVille(?string $ville): self
+    {
+        $this->ville = $ville;
 
         return $this;
     }

@@ -36,6 +36,7 @@ class Entreprise
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $ville = null;
 
+
     public function __construct()
     {
         $this->tokenEntreprise = bin2hex(random_bytes(32));

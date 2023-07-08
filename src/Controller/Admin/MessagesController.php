@@ -2,9 +2,11 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Site;
 use App\Entity\User;
-use App\Entity\Messages;
 
+use App\Entity\Poste;
+use App\Entity\Messages;
 use App\Form\MessagesType;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,6 +37,8 @@ class MessagesController extends AbstractController
         $message = new Messages();
       
         $recepientChoices  =  $this->managerRegistry->getManager()->getRepository(User::class)->findBy(['token' => $this->getUser()->getToken()]);
+
+      
 
         $form = $this->createForm(MessagesType::class, $message, [
             'recepient' => $recepientChoices,

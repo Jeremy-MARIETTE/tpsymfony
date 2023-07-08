@@ -22,6 +22,7 @@ class Site1Type extends AbstractType
         $builder
             ->add('nom')
             ->add('adresse')
+            ->add('ville')
             ->add('cp')
             ->add('token', TextType::class, [
                 'data' => $this->security->getUser()->getToken(),

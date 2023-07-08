@@ -2,17 +2,30 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Site;
+use App\Entity\User;
 use App\Entity\Poste;
 use App\Form\PosteType;
+use App\Repository\SiteRepository;
+use App\Repository\UserRepository;
 use App\Repository\PosteRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('admin/poste/controller/crud')]
 class PosteControllerCrudController extends AbstractController
 {
+    private $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+    
     #[Route('/', name: 'app_poste_controller_crud_index', methods: ['GET'])]
     public function index(PosteRepository $posteRepository): Response
     {
@@ -22,10 +35,23 @@ class PosteControllerCrudController extends AbstractController
     }
 
     #[Route('/new', name: 'app_poste_controller_crud_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, PosteRepository $posteRepository): Response
+    public function new(Request $request, PosteRepository $posteRepository, UserRepository $userRepository, SiteRepository $siteRepository): Response
     {
         $poste = new Poste();
-        $form = $this->createForm(PosteType::class, $poste);
+
+        //poste find by token
+        
+      
+        $userRepository = $this->entityManager->getRepository(User::class);
+        $agent = $userRepository->findBy(['token' => $this->getUser()->getToken()]);
+
+        $siteRepository = $this->entityManager->getRepository(Site::class);
+        $site = $siteRepository->findBy(['token' => $this->getUser()->getToken()]);
+
+        $form = $this->createForm(PosteType::class, $poste, [
+            'agents' => $agent,
+            'sites' => $site,
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -35,8 +61,9 @@ class PosteControllerCrudController extends AbstractController
         }
 
         return $this->renderForm('poste_controller_crud/new.html.twig', [
-            'poste' => $poste,
+            
             'form' => $form,
+           
         ]);
     }
 

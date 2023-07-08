@@ -2,15 +2,17 @@
 
 namespace App\Form;
 
+use App\Entity\Site;
 use App\Entity\Poste;
 use App\Entity\Ronde;
-use DateTimeImmutable;
 
+use DateTimeImmutable;
 use App\Repository\SiteRepository;
 use Doctrine\DBAL\Types\ArrayType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -82,20 +84,16 @@ class RondeType extends AbstractType
             ])
 
             ->add('observation')
-            ->add('site', null, [
+            ->add('site', EntityType::class, [
+                'class' => Site::class,
+                'query_builder' => function (SiteRepository $siteRepository) {
+                    return $siteRepository->createQueryBuilder('s')
+                        ->where('s.token = :token')
+                        ->setParameter('token', $this->security->getUser()->getToken());
+                },
                 'choice_label' => 'nom',
-                    //je veux un join en tre les tables site et poste
-                     'query_builder' => function (SiteRepository $siteRepository) {
-                        return $siteRepository->createQueryBuilder('s')
-                             ->innerJoin('s.postes', 'p')
-                             ->where('p.token = :token')
-                             ->andWhere('p.agent = :id')
-                             ->setParameter('token', $this->security->getUser()->getToken())
-                             ->setParameter('id', $this->security->getUser()->getId())
-                             ->orderBy('s.nom', 'ASC');
-                     },
-
-
+                'multiple' => false,
+                'expanded' => false,
             ])
             ->add('token', TextType::class, [
                 'data' => $this->security->getUser()->getToken(),
@@ -113,6 +111,7 @@ class RondeType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Ronde::class,
+            'sites' => [],
         ]);
     }
 }

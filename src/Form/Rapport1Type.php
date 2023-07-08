@@ -2,13 +2,16 @@
 
 namespace App\Form;
 
+use App\Entity\Site;
 use App\Entity\Rapport;
 use App\Repository\SiteRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class Rapport1Type extends AbstractType
 {
@@ -20,21 +23,18 @@ class Rapport1Type extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-          
-            ->add('site', null, [
-                'choice_label' => 'nom',
-                 //je veux un join en tre les tables site et poste
-                 'query_builder' => function (SiteRepository $siteRepository) {
-                    return $siteRepository->createQueryBuilder('s')
-                         ->innerJoin('s.postes', 'p')
-                         ->where('p.token = :token')
-                         ->andWhere('p.agent = :id')
-                         ->setParameter('token', $this->security->getUser()->getToken())
-                         ->setParameter('id', $this->security->getUser()->getId())
-                         ->orderBy('s.nom', 'ASC');
-                 },
 
-            ])
+        ->add('site', EntityType::class, [
+            'class' => Site::class,
+            'query_builder' => function (SiteRepository $siteRepository) {
+                return $siteRepository->createQueryBuilder('s')
+                    ->where('s.token = :token')
+                    ->setParameter('token', $this->security->getUser()->getToken());
+            },
+            'choice_label' => 'nom',
+            'multiple' => false,
+            'expanded' => false,
+        ])
             ->add('category', null, [
                 'choice_label' => 'nom',
             ])
@@ -56,6 +56,7 @@ class Rapport1Type extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Rapport::class,
+            'sitesChoisi' => [],
         ]);
     }
 }

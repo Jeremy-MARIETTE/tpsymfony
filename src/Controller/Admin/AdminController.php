@@ -9,20 +9,24 @@ use App\Entity\Site;
 use App\Entity\User;
 use App\Entity\Poste;
 use App\Entity\Ronde;
+use App\Entity\Rapport;
+use App\Entity\Messages;
 use App\Entity\Entreprise;
+
 use Doctrine\ORM\Query\Expr;
 use Doctrine\DBAL\Connection;
-
 use App\Entity\PriseDeService;
 use Doctrine\ORM\Query\Expr\Func;
 use App\Repository\SiteRepository;
 use App\Repository\UserRepository;
 use App\Repository\PosteRepository;
+
 use App\Repository\RondeRepository;
 
+use App\Repository\RapportRepository;
+use App\Repository\MessagesRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\ResultSetMapping;
-
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -35,13 +39,18 @@ class AdminController extends AbstractController
 
     private $entityManager;
     private $posteRepository;
+    private $rapportRepository;
+    private $messageRepository;
 
-    public function __construct(EntityManagerInterface $entityManager, RondeRepository $rondeRepository, SiteRepository $siteRepository, PosteRepository $posteRepository)
+    public function __construct(EntityManagerInterface $entityManager, RondeRepository $rondeRepository,
+     SiteRepository $siteRepository, PosteRepository $posteRepository, RapportRepository $rapportRepository, MessagesRepository $messageRepository)
     {
         $this->entityManager = $entityManager;
         $this->rondeRepository = $rondeRepository;
         $this->siteRepository = $siteRepository;
         $this->poste = $posteRepository;
+        $this->rapport = $rapportRepository;
+        $this->messageRepository = $messageRepository;
     }
     
     #[Route('/admin', name: 'app_admin')]
@@ -67,6 +76,14 @@ class AdminController extends AbstractController
 
         $priseDeService = $this->entityManager->getRepository(PriseDeService::class);
         $agent = $priseDeService->findBy(['token' => $token, 'dateFin' => null]);
+
+        $rapportRepository = $this->entityManager->getRepository(Rapport::class);
+        $rapport = $rapportRepository->findBy(['token' => $token,'Is_read_chef' => false]);
+
+        $messageRepository = $this->entityManager->getRepository(Messages::class);
+        $message = $messageRepository->findBy(['recepient' => $userId,'is_read' => false]);
+
+
         
 
       
@@ -194,7 +211,9 @@ class AdminController extends AbstractController
         'siteChoisi' => $siteChoisi,
         'agent' => $agent,
       
-        'user' => $user
+        'user' => $user,
+        'rapport' => $rapport,
+        'message' => $message,
     ]);
     }
 }
