@@ -38,6 +38,9 @@ class PriseDeService
     #[ORM\Column(length: 255)]
     private ?string $token = null;
 
+    #[ORM\ManyToOne(inversedBy: 'priseDeServices')]
+    private ?Site $site = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -135,6 +138,18 @@ class PriseDeService
     public function setToken(string $token): self
     {
         $this->token = $token;
+
+        return $this;
+    }
+
+    public function getSite(): ?Site
+    {
+        return $this->site;
+    }
+
+    public function setSite(?Site $site): self
+    {
+        $this->site = $site;
 
         return $this;
     }

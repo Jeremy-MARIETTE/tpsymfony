@@ -1,0 +1,27 @@
+<table class="col table table-striped ">
+
+<h2>Agents en service</h2>
+	<thead>
+		<tr>
+			<th>Nom</th>
+			<th>Site</th>
+			<th>Prise de service</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			{% for agents in agent %}
+				
+				<td>
+					{{agents.idAgent.prenom|slice(0, 1)}}
+					{{agents.idAgent.nom}}
+				</td>
+				<td>
+					{{agents.site.nom}}
+				<td>
+					{{ agents.date|date('d/m/Y H:i:s')}}
+				</td>
+			</tr>
+		{% endfor %}
+	</tbody>
+</table>

@@ -44,12 +44,21 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="9"></td>
+                <td colspan="9">
+               
+                </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a class="btn btn-success" href="{{ path('app_user_controller_crud_new') }}">Créer un compte</a>
+    <p>Nombre de comptes : {{users|length}}</p>
+
+    <p>Nombre de licences : {{licences[0].nbLicences}}</p>
+
+    {% if licences[0].nbLicences > users|length %}
+        <a class="btn btn-success" href="{{ path('app_user_controller_crud_new') }}">Créer un compte</a>
+    {% endif %}
+
     </div>
 {% endblock %}

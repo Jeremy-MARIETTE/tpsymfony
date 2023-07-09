@@ -50,126 +50,19 @@
 
 		</div>
 
-
+		<div class="container">
 		<h2 class="text-center">Main courante</h2>
-
-
-		{% if app.user.roles[0] == "ROLE_USER"  %}
-			<table class="table table-striped col-8">
-			{% else %}
-				<table class="container table table-striped col-8">
-				{% endif %}
-
-				{% if app.user.roles[0] == "ROLE_EMPLOYE" %}
-					<form action="#" method="POST" class="col 4">
-						<div class="container input-group mb-3">
-							<select name="site" class="col-3 custom-select" id="inputGroupSelect01">
-								<option selected>Choisir le site</option>
-								{% for site in sites %}
-									<option value="{{ site.id }}">{{ site.nom }}</option>
-								{% endfor %}
-							</select>
-							<input type="submit" class="btn btn-primary" value="Valider">
-						</div>
-					</form>
-
-				{% endif %}
-
-				{% if  app.user.roles[0] != "ROLE_EMPLOYE" %}
-					<form action="#" method="POST" class="col 3">
-						<div class="container input-group mb-4">
-							<select name="site" class=" col-3 custom-select" id="inputGroupSelect01">
-								<option selected>Choisir le site</option>
-								{% for site in sites %}
-									<option value="{{ site.id }}">{{ site.nom }}</option>
-								{% endfor %}
-							</select>
-							<input type="date" name="date">
-							<input type="submit" class="btn btn-primary" value="Valider">
-						</div>
-					</form>
-				{% endif %}
-
-				<thead>
-					{% if siteChoisi is not empty %}
-						<h2 class="text-center">{{siteChoisi.nom}}</h2>
-					{% endif %}
-					<tr>
-
-
-						<th scope="col">Départ</th>
-						<th scope="col">Observation</th>
-						<th scope="col">Retour</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-
-
-						{% for ronde in rondes %}
-							<th class="row"></th>
-
-							<td>
-								{{ ronde.debutAt|date('d/m/Y H:i:s') }}
-							</td>
-							<td>
-								{{ ronde.observation }}
-							</td>
-							<td>
-								{{ ronde.retourAt|date('d/m/Y H:i:s') }}
-							</td>
-						</tr>
-					{% endfor %}
-
-
-				</tbody>
-
-			</table>
-
-
-			{% if rondes %}{% endif %}
-
-			<!-- Agents en service -->
+		<div class="row">
+			<div class="col-8">
+			{{ include('partials/rondes.html.twig') }}
+			</div>
 			{% if app.user.roles[0] == "ROLE_USER" %}
-				<table class="table table-striped col-4">
-
-
-					<thead>
-
-						<tr>
-							<th scope="col"></th>
-
-							<th class="col-4">Nom</th>
-							<th class="col-4">Prise de service</th>
-
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-
-
-							{% for agents in agent %}
-								<th scope="row"></th>
-
-								<td class="">
-									{{agents.idAgent.prenom|slice(0, 1)}}
-									{{agents.idAgent.nom}}
-								</td>
-								<td class="col-4">
-									{{ agents.date|date('d/m/Y H:i:s')}}
-								</td>
-
-							</tr>
-						{% endfor %}
-
-
-					</tbody>
-
-				</table>
-
-
-				{% if rondes %}{% endif %}
+			<div class="col-4">
+			{{ include('partials/agents.html.twig') }}
+			</div>
 			{% endif %}
+		</div>
+
 
 		</div>
 	{% endblock %}

@@ -1,0 +1,66 @@
+{% if app.user.roles[0] == "ROLE_USER"  %}
+	<table class="col table table-striped">
+	{% else %}
+		<table class="container table table-striped">
+		{% endif %}
+
+		{% if app.user.roles[0] == "ROLE_EMPLOYE" %}
+			<form action="#" method="POST" class="col 4">
+				<div class="container input-group mb-3">
+					<select name="site" class="col-3 custom-select" id="inputGroupSelect01">
+						<option selected>Choisir le site</option>
+						{% for site in sites %}
+							<option value="{{ site.id }}">{{ site.nom }}</option>
+						{% endfor %}
+					</select>
+					<input type="submit" class="btn btn-primary" value="Valider">
+				</div>
+			</form>
+
+		{% endif %}
+
+		{% if  app.user.roles[0] != "ROLE_EMPLOYE" %}
+			<form action="#" method="POST" class="col 3">
+				<div class="container input-group mb-4">
+					<select name="site" class=" col-3 custom-select" id="inputGroupSelect01">
+						<option selected>Choisir le site</option>
+						{% for site in sites %}
+							<option value="{{ site.id }}">{{ site.nom }}</option>
+						{% endfor %}
+					</select>
+					<input type="date" name="date">
+					<input type="submit" class="btn btn-primary" value="Valider">
+				</div>
+			</form>
+		{% endif %}
+
+		<thead>
+			{% if siteChoisi is not empty %}
+				<h2 class="text-center">{{siteChoisi.nom}}</h2>
+			{% endif %}
+			<tr>
+				<th scope="col">Départ</th>
+				<th scope="col">Observation</th>
+				<th scope="col">Retour</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				{% for ronde in rondes %}
+			
+					<td>
+						{{ ronde.debutAt|date('d/m/Y H:i:s') }}
+					</td>
+					<td>
+						{{ ronde.observation }}
+					</td>
+					<td>
+						{{ ronde.retourAt|date('d/m/Y H:i:s') }}
+					</td>
+				</tr>
+			{% endfor %}
+
+
+		</tbody>
+
+	</table>

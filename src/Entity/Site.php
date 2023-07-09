@@ -39,6 +39,9 @@ class Site
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $ville = null;
 
+    #[ORM\OneToMany(mappedBy: 'site', targetEntity: PriseDeService::class)]
+    private Collection $priseDeServices;
+
 
     public function __construct()
     {
@@ -49,6 +52,7 @@ class Site
         $this->postes = new ArrayCollection();
         $this->consignes = new ArrayCollection();
         $this->rondes = new ArrayCollection();
+        $this->priseDeServices = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -268,6 +272,36 @@ class Site
     public function setVille(?string $ville): self
     {
         $this->ville = $ville;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PriseDeService>
+     */
+    public function getPriseDeServices(): Collection
+    {
+        return $this->priseDeServices;
+    }
+
+    public function addPriseDeService(PriseDeService $priseDeService): self
+    {
+        if (!$this->priseDeServices->contains($priseDeService)) {
+            $this->priseDeServices->add($priseDeService);
+            $priseDeService->setSite($this);
+        }
+
+        return $this;
+    }
+
+    public function removePriseDeService(PriseDeService $priseDeService): self
+    {
+        if ($this->priseDeServices->removeElement($priseDeService)) {
+            // set the owning side to null (unless already changed)
+            if ($priseDeService->getSite() === $this) {
+                $priseDeService->setSite(null);
+            }
+        }
 
         return $this;
     }

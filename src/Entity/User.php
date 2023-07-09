@@ -58,6 +58,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'recepient', targetEntity: Messages::class, orphanRemoval: true)]
     private Collection $received;
 
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -68,6 +69,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->dateService = new ArrayCollection();
         $this->sent = new ArrayCollection();
         $this->received = new ArrayCollection();
+        $this->abo = new ArrayCollection();
     }
     
     public function getId(): ?int
@@ -335,16 +337,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function removeReceived(Messages $received): self
-    {
-        if ($this->received->removeElement($received)) {
-            // set the owning side to null (unless already changed)
-            if ($received->getRecepient() === $this) {
-                $received->setRecepient(null);
-            }
-        }
 
-        return $this;
-    }
+
+  
+
+
+
 
 }

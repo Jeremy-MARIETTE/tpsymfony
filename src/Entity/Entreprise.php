@@ -37,9 +37,11 @@ class Entreprise
     private ?string $ville = null;
 
 
+
     public function __construct()
     {
         $this->tokenEntreprise = bin2hex(random_bytes(32));
+   
     }
     public function getId(): ?Uuid
     {
@@ -117,5 +119,5 @@ class Entreprise
 
         return $this;
     }
-
+  
 }

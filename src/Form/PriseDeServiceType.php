@@ -2,8 +2,10 @@
 
 namespace App\Form;
 
+use App\Entity\Site;
 use App\Entity\User;
 use App\Entity\PriseDeService;
+use App\Repository\SiteRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -65,6 +67,17 @@ class PriseDeServiceType extends AbstractType
                 'attr' => [
                     'style' => 'display: none;',
                 ],
+            ])
+            ->add('site', EntityType::class, [
+                'class' => Site::class,
+                'query_builder' => function (SiteRepository $siteRepository) {
+                    return $siteRepository->createQueryBuilder('s')
+                        ->where('s.token = :token')
+                        ->setParameter('token', $this->security->getUser()->getToken());
+                },
+                'choice_label' => 'nom',
+                'multiple' => false,
+                'expanded' => false,
             ])
 
             ->add('idAgent', EntityType::class, [

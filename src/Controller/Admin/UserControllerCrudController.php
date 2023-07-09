@@ -2,12 +2,13 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Entreprise;
 use App\Entity\User;
 use App\Form\UserType;
+use App\Entity\Entreprise;
 use Symfony\Component\Mime\Email;
 use App\Repository\UserRepository;
 use Symfony\Component\Mime\Message;
+use App\Repository\AbonnementRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
@@ -33,10 +34,11 @@ class UserControllerCrudController extends AbstractController
     }
 
     #[Route('/', name: 'app_user_controller_crud_index', methods: ['GET'])]
-    public function index(UserRepository $userRepository): Response
+    public function index(UserRepository $userRepository, AbonnementRepository $abonnementRepository): Response
     {
         return $this->render('user_controller_crud/index.html.twig', [
             'users' => $userRepository->findBy(['token'=> $this->getUser()->getId()]),
+            'licences' => $abonnementRepository->findBy(['entreprise'=> $this->getUser()->getId()], ['id' => 'DESC']),
         ]);
     }
 
